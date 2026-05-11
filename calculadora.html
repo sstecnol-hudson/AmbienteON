@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Carbono - AmbienteOn</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="ao-page">
+  <header class="ao-header">
+    <div class="ao-container ao-header-inner">
+      <div class="ao-logo">
+        <a href="index.html" class="ao-logo-text" style="text-decoration: none;">
+          <span class="ao-logo-title">AmbienteOn</span>
+          <span class="ao-logo-subtitle">Gestão Inteligente</span>
+        </a>
+      </div>
+      <nav class="ao-nav">
+        <a href="servicos.html" class="ao-nav-link">Soluções</a>
+        <a href="ferramentas.html" class="ao-nav-link ao-nav-link-highlight">Ferramentas</a>
+        <a href="normas.html" class="ao-nav-link">Biblioteca</a>
+        <a href="contato.html" class="ao-nav-link">Contato</a>
+        <a href="dashboard-cliente.html" class="ao-nav-link-admin">Área do Cliente</a>
+        <button class="ao-theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+          <span class="theme-icon light">☀️</span>
+          <span class="theme-icon dark">🌙</span>
+        </button>
+      </nav>
+      <button class="ao-menu-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="ao-hero ao-hero-sm">
+    <div class="ao-container ao-hero-inner">
+      <a href="ferramentas.html" class="ao-back-link" style="color: var(--ao-color-text-light); text-decoration: none; margin-bottom: 1rem; display: inline-block;">← Voltar para Ferramentas</a>
+      <h1>Calculadora de Carbono</h1>
+      <p class="ao-hero-text">Estime a pegada de carbono da sua empresa e descubra como compensar suas emissões.</p>
+    </div>
+  </div>
+
+  <main>
+    <section class="ao-section" id="calculadora">
+      <div class="ao-container">
+        <!-- Section Header removed as it is now in Hero -->
+        
+        <div class="ao-calculator-container">
+          <div class="ao-calculator-form">
+            
+            <div class="ao-calc-group">
+              <h4>🚗 Consumo de Combustível</h4>
+              <div class="ao-calc-row">
+                <label>Gasolina (litros/mês)</label>
+                <input type="number" id="gasolina" placeholder="0" min="0">
+              </div>
+              <div class="ao-calc-row">
+                <label>Diesel (litros/mês)</label>
+                <input type="number" id="diesel" placeholder="0" min="0">
+              </div>
+              <div class="ao-calc-row">
+                <label>Gás Natural (m³/mês)</label>
+                <input type="number" id="gas-natural" placeholder="0" min="0">
+              </div>
+            </div>
+
+            <div class="ao-calc-group">
+              <h4>⚡ Consumo de Energia</h4>
+              <div class="ao-calc-row">
+                <label>Energia Elétrica (kWh/mês)</label>
+                <input type="number" id="energia" placeholder="0" min="0">
+              </div>
+            </div>
+
+            <div class="ao-calc-group">
+              <h4>✈️ Viagens e Transporte</h4>
+              <div class="ao-calc-row">
+                <label>Voos nacionais (quantidade/mês)</label>
+                <input type="number" id="voos-nacionais" placeholder="0" min="0">
+              </div>
+              <div class="ao-calc-row">
+                <label>Voos internacionais (quantidade/mês)</label>
+                <input type="number" id="voos-internacionais" placeholder="0" min="0">
+              </div>
+            </div>
+
+            <div class="ao-calc-group">
+              <h4>🗑️ Resíduos</h4>
+              <div class="ao-calc-row">
+                <label>Resíduos orgânicos (kg/mês)</label>
+                <input type="number" id="residuos-organicos" placeholder="0" min="0">
+              </div>
+              <div class="ao-calc-row">
+                <label>Resíduos recicláveis (kg/mês)</label>
+                <input type="number" id="residuos-reciclaveis" placeholder="0" min="0">
+              </div>
+            </div>
+
+            <button type="button" class="ao-btn ao-btn-primary ao-btn-full" onclick="calcularPegadaCarbono()">
+              Calcular Pegada de Carbono
+            </button>
+          </div>
+
+          <div class="ao-calculator-results" id="resultados-carbono" style="display: none;">
+            <h3>Resultados da sua Pegada de Carbono</h3>
+            
+            <div class="ao-result-card">
+              <div class="ao-result-icon">🌍</div>
+              <div class="ao-result-content">
+                <h4>Emissão Total</h4>
+                <div class="ao-result-value" id="emissao-total">0</div>
+                <span class="ao-result-unit">toneladas CO₂/ano</span>
+              </div>
+            </div>
+
+            <div class="ao-result-breakdown">
+              <h4>Detalhamento por Fonte</h4>
+              <div class="ao-result-item">
+                <span>Combustível</span>
+                <div class="ao-result-bar">
+                  <div class="ao-result-fill" id="bar-combustivel"></div>
+                </div>
+                <span id="valor-combustivel">0 t</span>
+              </div>
+              <div class="ao-result-item">
+                <span>Energia</span>
+                <div class="ao-result-bar">
+                  <div class="ao-result-fill" id="bar-energia"></div>
+                </div>
+                <span id="valor-energia">0 t</span>
+              </div>
+              <div class="ao-result-item">
+                <span>Viagens</span>
+                <div class="ao-result-bar">
+                  <div class="ao-result-fill" id="bar-viagens"></div>
+                </div>
+                <span id="valor-viagens">0 t</span>
+              </div>
+              <div class="ao-result-item">
+                <span>Resíduos</span>
+                <div class="ao-result-bar">
+                  <div class="ao-result-fill" id="bar-residuos"></div>
+                </div>
+                <span id="valor-residuos">0 t</span>
+              </div>
+            </div>
+
+            <div class="ao-compensation-section">
+              <h4>🌱 Como Compensar sua Pegada</h4>
+              <p>Para neutralizar <strong id="compensacao-arvores">0</strong> toneladas de CO₂, você precisará plantar aproximadamente <strong id="compensacao-arvores-num">0</strong> árvores.</p>
+              
+              <div class="ao-compensation-options">
+                <div class="ao-compensation-option">
+                  <h5>Projeto de Reflorestamento</h5>
+                  <p>Plantio de árvores nativas em áreas degradadas</p>
+                  <span class="ao-compensation-price">R$ 25/árvore</span>
+                </div>
+                <div class="ao-compensation-option">
+                  <h5>Créditos de Carbono</h5>
+                  <p>Aquisição de créditos verificados no mercado de carbono</p>
+                  <span class="ao-compensation-price">R$ 45/ton CO₂</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ao-calculator-cta">
+              <p>Quer um plano personalizado para neutralizar sua pegada de carbono?</p>
+              <button class="ao-btn ao-btn-secondary" onclick="solicitarPlanoCarbono()">
+                Solicitar Consultoria
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer class="ao-footer">
+    <div class="ao-container">
+      <div class="ao-footer-grid">
+        <div class="ao-footer-col">
+          <h4>AmbienteOn</h4>
+          <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+            Soluções inteligentes em engenharia e consultoria ambiental para empresas que buscam eficiência e sustentabilidade.
+          </p>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Soluções</h4>
+          <ul class="ao-footer-links">
+            <li><a href="servicos.html">Licenciamento</a></li>
+            <li><a href="servicos.html">Resíduos Sólidos</a></li>
+            <li><a href="servicos.html">Auditoria Ambiental</a></li>
+            <li><a href="calculadora.html">Créditos de Carbono</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Ferramentas</h4>
+          <ul class="ao-footer-links">
+            <li><a href="mapa.html">Mapa de Legislação</a></li>
+            <li><a href="normas.html">Biblioteca de Normas</a></li>
+            <li><a href="calculadora.html">Calculadora CO2</a></li>
+            <li><a href="dashboard-cliente.html">Área do Cliente</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Fontes Oficiais</h4>
+          <ul class="ao-footer-links">
+            <li><a href="http://www.planalto.gov.br" target="_blank">Planalto (Leis)</a></li>
+            <li><a href="http://conama.mma.gov.br" target="_blank">CONAMA</a></li>
+            <li><a href="http://www.ibama.gov.br" target="_blank">IBAMA</a></li>
+            <li><a href="https://www.gov.br/mma/pt-br" target="_blank">MMA</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Contato</h4>
+          <ul class="ao-footer-links">
+            <li><a href="contato.html">Fale Conosco</a></li>
+            <li><a href="agendamento.html">Agendar Reunião</a></li>
+            <li><a href="mailto:contato@ambienteon.com.br">contato@ambienteon.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ao-footer-bottom">
+        <p>&copy; <span id="ao-year">2024</span> AmbienteOn. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

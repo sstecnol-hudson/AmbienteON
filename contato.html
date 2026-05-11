@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contato - AmbienteOn</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="ao-page">
+  <header class="ao-header">
+    <div class="ao-container ao-header-inner">
+      <div class="ao-logo">
+        <a href="index.html" class="ao-logo-text" style="text-decoration: none;">
+          <span class="ao-logo-title">AmbienteOn</span>
+          <span class="ao-logo-subtitle">Gestão Inteligente</span>
+        </a>
+      </div>
+      <nav class="ao-nav">
+        <a href="servicos.html" class="ao-nav-link">Soluções</a>
+        <a href="ferramentas.html" class="ao-nav-link">Ferramentas</a>
+        <a href="normas.html" class="ao-nav-link">Biblioteca</a>
+        <a href="contato.html" class="ao-nav-link ao-nav-link-highlight">Contato</a>
+        <a href="dashboard-cliente.html" class="ao-nav-link-admin">Área do Cliente</a>
+        <button class="ao-theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+          <span class="theme-icon light">☀️</span>
+          <span class="theme-icon dark">🌙</span>
+        </button>
+      </nav>
+      <button class="ao-menu-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="ao-hero ao-hero-sm">
+    <div class="ao-container ao-hero-inner">
+      <a href="index.html" class="ao-back-link" style="color: var(--ao-color-text-light); text-decoration: none; margin-bottom: 1rem; display: inline-block;">← Voltar para Início</a>
+      <h1>Contato & Solicitação</h1>
+      <p class="ao-hero-text">Solicite sua análise técnica gratuita ou entre em contato conosco.</p>
+    </div>
+  </div>
+
+  <main>
+    <section class="ao-section" id="solicitar">
+      <div class="ao-container">
+        <!-- Section Header removed as it is now in Hero -->
+        
+        <form class="ao-solicitation-form" id="solicitationForm">
+          <div class="ao-form-grid">
+            <div class="ao-form-row">
+              <label for="empresa-nome">Nome da Empresa *</label>
+              <input id="empresa-nome" name="empresa-nome" type="text" required />
+            </div>
+            
+            <div class="ao-form-row">
+              <label for="empresa-cnpj">CNPJ (opcional)</label>
+              <input id="empresa-cnpj" name="empresa-cnpj" type="text" placeholder="00.000.000/0000-00" />
+            </div>
+            
+            <div class="ao-form-row">
+              <label for="contato-nome">Nome do Responsável *</label>
+              <input id="contato-nome" name="contato-nome" type="text" required />
+            </div>
+            
+            <div class="ao-form-row">
+              <label for="contato-cargo">Cargo *</label>
+              <input id="contato-cargo" name="contato-cargo" type="text" required />
+            </div>
+            
+            <div class="ao-form-row">
+              <label for="contato-email">E-mail Corporativo *</label>
+              <input id="contato-email" name="contato-email" type="email" required />
+            </div>
+            
+            <div class="ao-form-row">
+              <label for="contato-telefone">WhatsApp *</label>
+              <input id="contato-telefone" name="contato-telefone" type="tel" required placeholder="(00) 00000-0000" />
+            </div>
+          </div>
+
+          <div class="ao-form-row">
+            <label for="servicos-selecionados">Serviços Selecionados</label>
+            <div id="servicos-selecionados" class="ao-selected-services">
+              <p class="ao-no-services">Nenhum serviço selecionado. Escolha os serviços desejados na página de Serviços ou descreva abaixo.</p>
+            </div>
+          </div>
+
+          <div class="ao-form-row">
+            <label for="detalhes-projeto">Detalhes do Projeto / Necessidades *</label>
+            <textarea id="detalhes-projeto" name="detalhes-projeto" rows="4" required 
+              placeholder="Descreva sua atividade, porte da empresa, principais desafios ambientais, prazos, etc."></textarea>
+          </div>
+
+          <div class="ao-form-row">
+            <label for="urgencia">Urgência *</label>
+            <select id="urgencia" name="urgencia" required>
+              <option value="">Selecione a urgência...</option>
+              <option value="imediata">Imediata (em até 7 dias)</option>
+              <option value="normal">Normal (em até 30 dias)</option>
+              <option value="planejamento">Planejamento (em até 90 dias)</option>
+            </select>
+          </div>
+
+          <div class="ao-form-row">
+            <label class="ao-checkbox-label">
+              <input type="checkbox" id="aceite-termos" required />
+              <span class="ao-checkbox-custom"></span>
+              Aceito receber contato comercial e entendo que meus dados serão usados para análise técnica e orçamento.
+            </label>
+          </div>
+
+          <button type="submit" class="ao-btn ao-btn-primary ao-btn-full">Solicitar Análise Técnica Gratuita</button>
+          
+          <div class="ao-form-note">
+            <p>⚡ Resposta em até 24h úteis | Análise sem compromisso | Orçamento personalizado</p>
+          </div>
+        </form>
+
+        <div class="ao-contact-info" style="margin-top: 4rem;">
+            <div class="ao-section-header">
+                <h3>Outros Canais de Contato</h3>
+            </div>
+            <div class="ao-contact-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center;">
+                <div class="ao-contact-item">
+                    <h4>WhatsApp</h4>
+                    <p>(65) 99999-9999</p>
+                </div>
+                <div class="ao-contact-item">
+                    <h4>E-mail</h4>
+                    <p>contato@ambienteon.com.br</p>
+                </div>
+                <div class="ao-contact-item">
+                    <h4>Endereço</h4>
+                    <p>Cuiabá - MT</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer class="ao-footer">
+    <div class="ao-container">
+      <div class="ao-footer-grid">
+        <div class="ao-footer-col">
+          <h4>AmbienteOn</h4>
+          <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+            Soluções inteligentes em engenharia e consultoria ambiental para empresas que buscam eficiência e sustentabilidade.
+          </p>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Soluções</h4>
+          <ul class="ao-footer-links">
+            <li><a href="servicos.html">Licenciamento</a></li>
+            <li><a href="servicos.html">Resíduos Sólidos</a></li>
+            <li><a href="servicos.html">Auditoria Ambiental</a></li>
+            <li><a href="calculadora.html">Créditos de Carbono</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Ferramentas</h4>
+          <ul class="ao-footer-links">
+            <li><a href="mapa.html">Mapa de Legislação</a></li>
+            <li><a href="normas.html">Biblioteca de Normas</a></li>
+            <li><a href="calculadora.html">Calculadora CO2</a></li>
+            <li><a href="dashboard-cliente.html">Área do Cliente</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Fontes Oficiais</h4>
+          <ul class="ao-footer-links">
+            <li><a href="http://www.planalto.gov.br" target="_blank">Planalto (Leis)</a></li>
+            <li><a href="http://conama.mma.gov.br" target="_blank">CONAMA</a></li>
+            <li><a href="http://www.ibama.gov.br" target="_blank">IBAMA</a></li>
+            <li><a href="https://www.gov.br/mma/pt-br" target="_blank">MMA</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Contato</h4>
+          <ul class="ao-footer-links">
+            <li><a href="contato.html">Fale Conosco</a></li>
+            <li><a href="agendamento.html">Agendar Reunião</a></li>
+            <li><a href="mailto:contato@ambienteon.com.br">contato@ambienteon.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ao-footer-bottom">
+        <p>&copy; <span id="ao-year">2024</span> AmbienteOn. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

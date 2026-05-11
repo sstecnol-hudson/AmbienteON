@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AmbienteOn - Dashboard Administrativo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="ao-page">
+    <header class="ao-header">
+        <div class="ao-container ao-header-inner">
+            <div class="ao-logo">
+                <a href="index.html" class="ao-logo-text" style="text-decoration: none;">
+                    <span class="ao-logo-title">AmbienteOn</span>
+                    <span class="ao-logo-subtitle">Gestão Inteligente</span>
+                </a>
+            </div>
+            <nav class="ao-nav">
+                <a href="servicos.html" class="ao-nav-link">Soluções</a>
+                <a href="ferramentas.html" class="ao-nav-link">Ferramentas</a>
+                <a href="normas.html" class="ao-nav-link">Biblioteca</a>
+                <a href="contato.html" class="ao-nav-link">Contato</a>
+                <a href="dashboard-cliente.html" class="ao-nav-link-admin">Área do Cliente</a>
+                <button class="ao-theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+                    <span class="theme-icon light">☀️</span>
+                    <span class="theme-icon dark">🌙</span>
+                </button>
+            </nav>
+            <button class="ao-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="ao-hero" style="padding: 4rem 0 2rem;">
+        <div class="ao-container ao-hero-inner">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h1>Painel Administrativo</h1>
+                    <p class="ao-hero-text">Gerencie solicitações, clientes e relatórios.</p>
+                </div>
+                <div class="admin-user-info" style="text-align: right; background: rgba(255,255,255,0.1); padding: 0.5rem 1rem; border-radius: 8px;">
+                    <div class="admin-user-name" style="font-weight: 600;">Jaqueline do Nascimento</div>
+                    <div class="admin-user-role" style="font-size: 0.875rem; opacity: 0.9;">CREA-MT 60225</div>
+                    <button id="adminLogoutBtn" class="ao-btn ao-btn-sm ao-btn-outline" style="margin-top: 0.5rem; border-color: white; color: white;">Sair</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="ao-container" style="margin-top: -2rem; position: relative; z-index: 10;">
+            <div class="admin-tabs" style="background: var(--ao-color-bg); padding: 1rem; border-radius: var(--ao-border-radius); box-shadow: var(--ao-shadow); display: flex; gap: 1rem; overflow-x: auto; margin-bottom: 2rem;">
+                <a href="#dashboard" class="ao-tab-link active" style="padding: 0.5rem 1rem; text-decoration: none; color: var(--ao-color-text); font-weight: 500; border-radius: 6px; transition: all 0.2s;">Dashboard</a>
+                <a href="#solicitacoes" class="ao-tab-link" style="padding: 0.5rem 1rem; text-decoration: none; color: var(--ao-color-text-light); font-weight: 500; border-radius: 6px; transition: all 0.2s;">Solicitações</a>
+                <a href="#clientes" class="ao-tab-link" style="padding: 0.5rem 1rem; text-decoration: none; color: var(--ao-color-text-light); font-weight: 500; border-radius: 6px; transition: all 0.2s;">Clientes</a>
+                <a href="#relatorios" class="ao-tab-link" style="padding: 0.5rem 1rem; text-decoration: none; color: var(--ao-color-text-light); font-weight: 500; border-radius: 6px; transition: all 0.2s;">Relatórios</a>
+            </div>
+        </div>
+
+        <section class="ao-section" style="padding-top: 0;">
+            <div class="ao-container">
+            <!-- Dashboard Section -->
+            <div id="section-dashboard" class="admin-section">
+                <div class="admin-stats">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-number">0</div>
+                        <div class="admin-stat-label">Total de Solicitações</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-number">0</div>
+                        <div class="admin-stat-label">Pendentes</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-number">0</div>
+                        <div class="admin-stat-label">Em Análise</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-number">0</div>
+                        <div class="admin-stat-label">Orçamento Enviado</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-number">0</div>
+                        <div class="admin-stat-label">Concluídas</div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <div class="admin-section-header">
+                        <h2 class="admin-section-title">Solicitações Recentes</h2>
+                        <div class="admin-section-actions">
+                            <button id="exportPdfBtn" class="admin-btn admin-btn-primary">📄 Exportar PDF</button>
+                            <button id="exportExcelBtn" class="admin-btn admin-btn-secondary">📊 Exportar Excel</button>
+                        </div>
+                    </div>
+                    <div class="admin-section-content">
+                        <table id="solicitationsTable" class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Protocolo</th>
+                                    <th>Data</th>
+                                    <th>Empresa</th>
+                                    <th>CNPJ</th>
+                                    <th>Contato</th>
+                                    <th>Serviços</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solicitações Section -->
+            <div id="section-solicitacoes" class="admin-section" style="display: none;">
+                <div class="admin-section-header">
+                    <h2 class="admin-section-title">Todas as Solicitações</h2>
+                    <div class="admin-section-actions">
+                        <button class="admin-btn admin-btn-primary">➕ Nova Solicitação</button>
+                        <button class="admin-btn admin-btn-secondary">🔍 Filtrar</button>
+                    </div>
+                </div>
+                <div class="admin-section-content">
+                    <p>Lista completa de todas as solicitações recebidas.</p>
+                </div>
+            </div>
+
+            <!-- Clientes Section -->
+            <div id="section-clientes" class="admin-section" style="display: none;">
+                <div class="admin-section-header">
+                    <h2 class="admin-section-title">Clientes</h2>
+                    <div class="admin-section-actions">
+                        <button class="admin-btn admin-btn-primary">➕ Novo Cliente</button>
+                        <button class="admin-btn admin-btn-secondary">🔍 Buscar</button>
+                    </div>
+                </div>
+                <div class="admin-section-content">
+                    <p>Gerenciamento de clientes e empresas atendidas.</p>
+                </div>
+            </div>
+
+            <!-- Relatórios Section -->
+            <div id="section-relatorios" class="admin-section" style="display: none;">
+                <div class="admin-section-header">
+                    <h2 class="admin-section-title">Relatórios</h2>
+                    <div class="admin-section-actions">
+                        <button class="admin-btn admin-btn-primary">📊 Gerar Relatório</button>
+                        <button class="admin-btn admin-btn-secondary">📤 Exportar</button>
+                    </div>
+                </div>
+                <div class="admin-section-content">
+                    <p>Relatórios e análises de desempenho.</p>
+                </div>
+            </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="ao-footer">
+        <div class="ao-container">
+            <div class="ao-footer-grid">
+                <div class="ao-footer-col">
+                    <h4>AmbienteOn</h4>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                        Soluções inteligentes em engenharia e consultoria ambiental para empresas que buscam eficiência e sustentabilidade.
+                    </p>
+                </div>
+                <div class="ao-footer-col">
+                    <h4>Soluções</h4>
+                    <ul class="ao-footer-links">
+                        <li><a href="servicos.html">Licenciamento</a></li>
+                        <li><a href="servicos.html">Resíduos Sólidos</a></li>
+                        <li><a href="servicos.html">Auditoria Ambiental</a></li>
+                        <li><a href="calculadora.html">Créditos de Carbono</a></li>
+                    </ul>
+                </div>
+                <div class="ao-footer-col">
+                    <h4>Ferramentas</h4>
+                    <ul class="ao-footer-links">
+                        <li><a href="mapa.html">Mapa de Legislação</a></li>
+                        <li><a href="normas.html">Biblioteca de Normas</a></li>
+                        <li><a href="calculadora.html">Calculadora CO2</a></li>
+                        <li><a href="dashboard-cliente.html">Área do Cliente</a></li>
+                    </ul>
+                </div>
+                <div class="ao-footer-col">
+                    <h4>Fontes Oficiais</h4>
+                    <ul class="ao-footer-links">
+                        <li><a href="http://www.planalto.gov.br" target="_blank">Planalto (Leis)</a></li>
+                        <li><a href="http://conama.mma.gov.br" target="_blank">CONAMA</a></li>
+                        <li><a href="http://www.ibama.gov.br" target="_blank">IBAMA</a></li>
+                        <li><a href="https://www.gov.br/mma/pt-br" target="_blank">MMA</a></li>
+                    </ul>
+                </div>
+                <div class="ao-footer-col">
+                    <h4>Contato</h4>
+                    <ul class="ao-footer-links">
+                        <li><a href="contato.html">Fale Conosco</a></li>
+                        <li><a href="agendamento.html">Agendar Reunião</a></li>
+                        <li><a href="mailto:contato@ambienteon.com.br">contato@ambienteon.com.br</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ao-footer-bottom">
+                <p>&copy; <span id="ao-year">2024</span> AmbienteOn. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

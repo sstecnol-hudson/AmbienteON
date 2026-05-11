@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa de Legislação - AmbienteOn</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="ao-page">
+  <header class="ao-header">
+    <div class="ao-container ao-header-inner">
+      <div class="ao-logo">
+        <a href="index.html" class="ao-logo-text" style="text-decoration: none;">
+          <span class="ao-logo-title">AmbienteOn</span>
+          <span class="ao-logo-subtitle">Gestão Inteligente</span>
+        </a>
+      </div>
+      
+      <nav class="ao-nav">
+        <a href="servicos.html" class="ao-nav-link">Soluções</a>
+        <a href="ferramentas.html" class="ao-nav-link ao-nav-link-highlight">Ferramentas</a>
+        <a href="normas.html" class="ao-nav-link">Biblioteca</a>
+        <a href="contato.html" class="ao-nav-link">Contato</a>
+        <a href="dashboard-cliente.html" class="ao-nav-link-admin">Área do Cliente</a>
+        <button class="ao-theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+          <span class="theme-icon light">☀️</span>
+          <span class="theme-icon dark">🌙</span>
+        </button>
+      </nav>
+
+      <button class="ao-menu-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="ao-hero ao-hero-sm">
+    <div class="ao-container ao-hero-inner">
+      <a href="ferramentas.html" class="ao-back-link" style="color: var(--ao-color-text-light); text-decoration: none; margin-bottom: 1rem; display: inline-block;">← Voltar para Ferramentas</a>
+      <h1>Mapa de Legislação</h1>
+      <p class="ao-hero-text">Descubra as exigências ambientais específicas para sua região e tipo de atividade.</p>
+    </div>
+  </div>
+
+  <main>
+    <section class="ao-section" id="mapa-legislacao">
+      <div class="ao-container">
+        
+        <div class="ao-map-container">
+          <div class="ao-map-filters">
+            <div class="ao-filter-group">
+              <label for="regiao-select">Região:</label>
+              <select id="regiao-select" class="ao-filter-select">
+                <option value="">Selecione uma região</option>
+                <option value="norte">Região Norte</option>
+                <option value="nordeste">Região Nordeste</option>
+                <option value="centro-oeste">Região Centro-Oeste</option>
+                <option value="sudeste">Região Sudeste</option>
+                <option value="sul">Região Sul</option>
+                <option value="mato-grosso">Mato Grosso</option>
+              </select>
+            </div>
+            
+            <div class="ao-filter-group">
+              <label for="atividade-select">Tipo de Atividade:</label>
+              <select id="atividade-select" class="ao-filter-select">
+                <option value="">Selecione uma atividade</option>
+                <option value="industria">Indústria</option>
+                <option value="comercio">Comércio</option>
+                <option value="servicos">Prestação de Serviços</option>
+                <option value="agricultura">Agricultura</option>
+                <option value="pecuaria">Pecuária</option>
+                <option value="mineracao">Mineração</option>
+                <option value="construcao">Construção Civil</option>
+              </select>
+            </div>
+            
+            <div class="ao-filter-group">
+              <label for="porte-select">Porte da Empresa:</label>
+              <select id="porte-select" class="ao-filter-select">
+                <option value="">Selecione o porte</option>
+                <option value="micro">Microempresa</option>
+                <option value="pequena">Pequena Empresa</option>
+                <option value="media">Média Empresa</option>
+                <option value="grande">Grande Empresa</option>
+              </select>
+            </div>
+            
+            <button type="button" class="ao-btn ao-btn-primary" onclick="filtrarLegislacao()">
+              Buscar Exigências
+            </button>
+          </div>
+          
+          <div class="ao-map-visualization">
+            <div class="ao-map-brazil">
+              <svg viewBox="0 0 800 600" class="ao-map-svg">
+                <!-- Regiões do Brasil simplificadas -->
+                <path id="regiao-norte" class="ao-map-region" d="M300,50 L500,50 L500,200 L300,200 Z" data-regiao="norte" data-nome="Região Norte"/>
+                <path id="regiao-nordeste" class="ao-map-region" d="M500,50 L700,50 L700,250 L500,250 Z" data-regiao="nordeste" data-nome="Região Nordeste"/>
+                <path id="regiao-centro-oeste" class="ao-map-region" d="M300,200 L500,200 L500,350 L300,350 Z" data-regiao="centro-oeste" data-nome="Região Centro-Oeste"/>
+                <path id="regiao-sudeste" class="ao-map-region" d="M500,250 L650,250 L650,400 L500,400 Z" data-regiao="sudeste" data-nome="Região Sudeste"/>
+                <path id="regiao-sul" class="ao-map-region" d="M500,400 L650,400 L650,550 L500,550 Z" data-regiao="sul" data-nome="Região Sul"/>
+                
+                <!-- Destaque para Mato Grosso -->
+                <circle id="destaque-mt" class="ao-map-highlight" cx="400" cy="275" r="30" data-regiao="mato-grosso" data-nome="Mato Grosso"/>
+                <text x="400" y="280" class="ao-map-label" text-anchor="middle">MT</text>
+              </svg>
+            </div>
+            
+            <div class="ao-map-info">
+              <div class="ao-map-legend">
+                <h4>Legenda</h4>
+                <div class="ao-legend-item">
+                  <div class="ao-legend-color ao-legend-alta"></div>
+                  <span>Alta complexidade regulatória</span>
+                </div>
+                <div class="ao-legend-item">
+                  <div class="ao-legend-color ao-legend-media"></div>
+                  <span>Complexidade média</span>
+                </div>
+                <div class="ao-legend-item">
+                  <div class="ao-legend-color ao-legend-baixa"></div>
+                  <span>Baixa complexidade</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ao-legislation-results" id="legislation-results" style="display: none;">
+          <div class="ao-results-header">
+            <h3>Exigências Encontradas</h3>
+            <p id="results-summary">Selecione os filtros acima para ver as exigências específicas</p>
+          </div>
+          
+          <div class="ao-legislation-grid" id="legislation-grid">
+            <!-- Resultados serão inseridos aqui via JavaScript -->
+          </div>
+          
+          <div class="ao-results-actions">
+            <button class="ao-btn ao-btn-secondary" onclick="exportarLegislacao()">
+              📄 Exportar Relatório
+            </button>
+            <button class="ao-btn ao-btn-primary" onclick="solicitarOrientacao()">
+              🎯 Solicitar Orientação Personalizada
+            </button>
+          </div>
+          
+          <div class="ao-integration-tip" style="margin-top: 2rem; padding: 1.5rem; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #3b82f6;">
+            <p style="margin-bottom: 0;"><strong>💡 Dica de Automação:</strong> Você pode integrar essas APIs ao seu sistema interno de gestão (ERP) ou utilizar as plataformas de Legal Tech listadas em nossa <a href="ferramentas.html" style="color: #2563eb; text-decoration: underline;">página de Ferramentas</a> para monitoramento contínuo.</p>
+          </div>
+        </div>
+        
+        <div class="ao-map-info-box">
+          <h4>💡 Informação Importante</h4>
+          <p>As exigências ambientais variam significativamente por região, tipo de atividade e porte da empresa. Use esta ferramenta para entender melhor suas obrigações específicas.</p>
+          <p><strong>Nota:</strong> Esta é uma visão geral. Para orientação precisa sobre seu caso específico, recomendamos uma consultoria personalizada.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ao-footer">
+    <div class="ao-container">
+      <div class="ao-footer-grid">
+        <div class="ao-footer-col">
+          <h4>AmbienteOn</h4>
+          <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+            Soluções inteligentes em engenharia e consultoria ambiental para empresas que buscam eficiência e sustentabilidade.
+          </p>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Soluções</h4>
+          <ul class="ao-footer-links">
+            <li><a href="servicos.html">Licenciamento</a></li>
+            <li><a href="servicos.html">Resíduos Sólidos</a></li>
+            <li><a href="servicos.html">Auditoria Ambiental</a></li>
+            <li><a href="calculadora.html">Créditos de Carbono</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Ferramentas</h4>
+          <ul class="ao-footer-links">
+            <li><a href="mapa.html">Mapa de Legislação</a></li>
+            <li><a href="normas.html">Biblioteca de Normas</a></li>
+            <li><a href="calculadora.html">Calculadora CO2</a></li>
+            <li><a href="dashboard-cliente.html">Área do Cliente</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Fontes Oficiais</h4>
+          <ul class="ao-footer-links">
+            <li><a href="http://www.planalto.gov.br" target="_blank">Planalto (Leis)</a></li>
+            <li><a href="http://conama.mma.gov.br" target="_blank">CONAMA</a></li>
+            <li><a href="http://www.ibama.gov.br" target="_blank">IBAMA</a></li>
+            <li><a href="https://www.gov.br/mma/pt-br" target="_blank">MMA</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Contato</h4>
+          <ul class="ao-footer-links">
+            <li><a href="contato.html">Fale Conosco</a></li>
+            <li><a href="agendamento.html">Agendar Reunião</a></li>
+            <li><a href="mailto:contato@ambienteon.com.br">contato@ambienteon.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ao-footer-bottom">
+        <p>&copy; <span id="ao-year">2024</span> AmbienteOn. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="main.js"></script>
+</body>
+</html>

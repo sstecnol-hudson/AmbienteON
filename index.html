@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AmbienteOn - Gestão Ambiental Inteligente</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="ao-app-home">
+  <header class="ao-header">
+    <div class="ao-container ao-header-inner">
+      <div class="ao-logo">
+        <a href="index.html" class="ao-logo-text" style="text-decoration: none;">
+          <span class="ao-logo-title">AmbienteOn</span>
+          <span class="ao-logo-subtitle">Gestão Inteligente</span>
+        </a>
+      </div>
+      
+      <nav class="ao-nav">
+        <a href="servicos.html" class="ao-nav-link">Soluções</a>
+        <a href="ferramentas.html" class="ao-nav-link">Ferramentas</a>
+        <a href="emissoes.html" class="ao-nav-link">Ativos</a>
+        <a href="normas.html" class="ao-nav-link">Biblioteca</a>
+        <a href="contato.html" class="ao-nav-link">Contato</a>
+        <a href="dashboard-cliente.html" class="ao-nav-link-admin">Área do Cliente</a>
+        <button class="ao-theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+          <span class="theme-icon light">☀️</span>
+          <span class="theme-icon dark">🌙</span>
+        </button>
+      </nav>
+
+      <button class="ao-menu-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="ao-hero">
+      <div class="ao-container ao-hero-inner">
+        <h1>Transforme sua Gestão Ambiental em Vantagem Competitiva</h1>
+        <p class="ao-hero-text">
+          Soluções completas para licenciamento, conformidade legal e sustentabilidade. 
+          Tecnologia e expertise técnica para simplificar processos e garantir segurança jurídica.
+        </p>
+        <div class="ao-hero-actions">
+          <a href="contato.html" class="ao-btn ao-btn-primary">Solicitar Consultoria</a>
+          <a href="ferramentas.html" class="ao-btn ao-btn-outline">Conhecer Ferramentas</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Integrações e Parceiros Section -->
+    <section class="ao-section-logos">
+      <div class="ao-container">
+        <p class="ao-logos-title">Conectado às principais fontes e tecnologias do setor</p>
+        <div class="ao-logos-grid">
+          <div class="ao-logo-item" style="font-weight: 700; color: var(--ao-color-text-light);">IBAMA</div>
+          <div class="ao-logo-item" style="font-weight: 700; color: var(--ao-color-text-light);">MMA</div>
+          <div class="ao-logo-item" style="font-weight: 700; color: var(--ao-color-text-light);">Agrotools</div>
+          <div class="ao-logo-item" style="font-weight: 700; color: var(--ao-color-text-light);">Vertown</div>
+          <div class="ao-logo-item" style="font-weight: 700; color: var(--ao-color-text-light);">Lema</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="ao-section">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Soluções Integradas</h2>
+          <p>Unimos consultoria especializada e tecnologia para otimizar sua gestão ambiental.</p>
+        </div>
+        
+        <div class="ao-features-grid">
+          <div class="ao-feature-card">
+            <div class="ao-feature-icon">📋</div>
+            <h3>Licenciamento Ambiental</h3>
+            <p>Gestão completa de LP, LI e LO. Estudos ambientais, relatórios técnicos e acompanhamento de processos junto aos órgãos competentes.</p>
+            <a href="servicos.html" class="ao-feature-link">Saiba mais <span>→</span></a>
+          </div>
+          
+          <div class="ao-feature-card">
+            <div class="ao-feature-icon">♻️</div>
+            <h3>Gestão de Resíduos</h3>
+            <p>PGRS, MTR e logística reversa. Soluções para destinação correta e valorização de resíduos industriais e comerciais.</p>
+            <a href="servicos.html" class="ao-feature-link">Saiba mais <span>→</span></a>
+          </div>
+          
+          <div class="ao-feature-card">
+            <div class="ao-feature-icon">⚖️</div>
+            <h3>Compliance Legal</h3>
+            <p>Auditoria de conformidade e monitoramento contínuo da legislação ambiental federal, estadual e municipal.</p>
+            <a href="servicos.html" class="ao-feature-link">Saiba mais <span>→</span></a>
+          </div>
+
+          <div class="ao-feature-card">
+            <div class="ao-feature-icon">🌱</div>
+            <h3>Sustentabilidade</h3>
+            <p>Cálculo de pegada de carbono, projetos de compensação e estratégias ESG para sua empresa.</p>
+            <a href="calculadora.html" class="ao-feature-link">Calcular Carbono <span>→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Differentials Section (New - Inspired by Codificar) -->
+    <section class="ao-section ao-section-alt">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Por que escolher a AmbienteOn?</h2>
+          <p>Tecnologia e expertise para impulsionar seus resultados.</p>
+        </div>
+        
+        <div class="ao-differentials-grid">
+          <div class="ao-differential-item">
+            <div class="ao-differential-icon">🚀</div>
+            <h3>Agilidade nos Processos</h3>
+            <p>Redução de prazos através de automação e acompanhamento proativo de processos.</p>
+          </div>
+          <div class="ao-differential-item">
+            <div class="ao-differential-icon">🔒</div>
+            <h3>Segurança Jurídica</h3>
+            <p>Monitoramento constante da legislação para garantir total conformidade.</p>
+          </div>
+          <div class="ao-differential-item">
+            <div class="ao-differential-icon">📊</div>
+            <h3>Gestão Baseada em Dados</h3>
+            <p>Dashboards e relatórios inteligentes para tomada de decisão assertiva.</p>
+          </div>
+          <div class="ao-differential-item">
+            <div class="ao-differential-icon">🤝</div>
+            <h3>Equipe Multidisciplinar</h3>
+            <p>Engenheiros, biólogos e advogados especialistas à sua disposição.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Preview Section -->
+    <section class="ao-section">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Ferramentas Exclusivas</h2>
+          <p>Acesse nossos recursos digitais para facilitar o dia a dia da sua gestão.</p>
+        </div>
+
+        <div class="ao-features-grid">
+          <a href="mapa.html" class="ao-feature-card" style="text-decoration: none; border-color: var(--ao-color-secondary);">
+            <div class="ao-feature-icon" style="background: rgba(34, 197, 94, 0.1); color: var(--ao-color-secondary);">🗺️</div>
+            <h3>Mapa de Legislação</h3>
+            <p>Visualize exigências ambientais específicas por região e atividade em um mapa interativo.</p>
+            <span class="ao-btn ao-btn-sm ao-btn-outline">Acessar Mapa</span>
+          </a>
+
+          <a href="normas.html" class="ao-feature-card" style="text-decoration: none; border-color: var(--ao-color-accent);">
+            <div class="ao-feature-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--ao-color-accent);">📚</div>
+            <h3>Biblioteca de Normas</h3>
+            <p>Acervo atualizado de leis, decretos e resoluções ambientais organizados para consulta rápida.</p>
+            <span class="ao-btn ao-btn-sm ao-btn-outline" style="color: var(--ao-color-accent); border-color: var(--ao-color-accent);">Consultar Acervo</span>
+          </a>
+
+          <a href="calculadora.html" class="ao-feature-card" style="text-decoration: none; border-color: var(--ao-color-warning);">
+            <div class="ao-feature-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--ao-color-warning);">🧮</div>
+            <h3>Calculadora de Carbono</h3>
+            <p>Estime as emissões de GEE da sua operação e descubra opções de neutralização.</p>
+            <span class="ao-btn ao-btn-sm ao-btn-outline" style="color: var(--ao-color-warning); border-color: var(--ao-color-warning);">Simular Agora</span>
+          </a>
+          
+          <a href="carbono-rural.html" class="ao-feature-card" style="text-decoration: none; border-color: var(--ao-color-primary);">
+            <div class="ao-feature-icon" style="background: rgba(34, 197, 94, 0.1); color: var(--ao-color-primary);">🌳</div>
+            <h3>Carbono Rural</h3>
+            <p>Descubra a renda potencial da sua área de mata nativa preservada.</p>
+            <span class="ao-btn ao-btn-sm ao-btn-outline" style="color: var(--ao-color-primary); border-color: var(--ao-color-primary);">Calcular Renda</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="ao-section ao-section-alt" style="text-align: center;">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Pronto para otimizar sua gestão ambiental?</h2>
+          <p>Fale com nossos especialistas e descubra como podemos ajudar sua empresa.</p>
+        </div>
+        <a href="contato.html" class="ao-btn ao-btn-primary ao-btn-lg" style="font-size: 1.25rem; padding: 1rem 3rem;">Falar com Consultor</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ao-footer">
+    <div class="ao-container">
+      <div class="ao-footer-grid">
+        <div class="ao-footer-col">
+          <h4>AmbienteOn</h4>
+          <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+            Soluções inteligentes em engenharia e consultoria ambiental para empresas que buscam eficiência e sustentabilidade.
+          </p>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Soluções</h4>
+          <ul class="ao-footer-links">
+            <li><a href="servicos.html">Licenciamento</a></li>
+            <li><a href="servicos.html">Resíduos Sólidos</a></li>
+            <li><a href="servicos.html">Auditoria Ambiental</a></li>
+            <li><a href="calculadora.html">Créditos de Carbono</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Ferramentas</h4>
+          <ul class="ao-footer-links">
+            <li><a href="mapa.html">Mapa de Legislação</a></li>
+            <li><a href="normas.html">Biblioteca de Normas</a></li>
+            <li><a href="calculadora.html">Calculadora CO2</a></li>
+            <li><a href="dashboard-cliente.html">Área do Cliente</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Fontes Oficiais</h4>
+          <ul class="ao-footer-links">
+            <li><a href="http://www.planalto.gov.br" target="_blank">Planalto (Leis)</a></li>
+            <li><a href="http://conama.mma.gov.br" target="_blank">CONAMA</a></li>
+            <li><a href="http://www.ibama.gov.br" target="_blank">IBAMA</a></li>
+            <li><a href="https://www.gov.br/mma/pt-br" target="_blank">MMA</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Contato</h4>
+          <ul class="ao-footer-links">
+            <li><a href="contato.html">Fale Conosco</a></li>
+            <li><a href="agendamento.html">Agendar Reunião</a></li>
+            <li><a href="mailto:contato@ambienteon.com.br">contato@ambienteon.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ao-footer-bottom">
+        <p>&copy; <span id="ao-year">2024</span> AmbienteOn. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot Widget -->
+  <div class="ao-chatbot-widget" id="chatbot-widget">
+    <div class="ao-chatbot-button" id="chatbot-button">
+      <span class="chatbot-icon">🤖</span>
+      <span class="chatbot-notification" id="chatbot-notification">1</span>
+    </div>
+    
+    <div class="ao-chatbot-container" id="chatbot-container">
+      <div class="ao-chatbot-header">
+        <div class="chatbot-info">
+          <div class="chatbot-avatar">🌱</div>
+          <div class="chatbot-details">
+            <h4>AmbienteBot</h4>
+            <p>Assistente Ambiental</p>
+          </div>
+        </div>
+        <button class="chatbot-close" id="chatbot-close">×</button>
+      </div>
+      
+      <div class="ao-chatbot-messages" id="chatbot-messages">
+        <div class="chatbot-message bot-message">
+          <div class="message-avatar">🤖</div>
+          <div class="message-content">
+            <p>Olá! Sou o AmbienteBot, seu assistente especializado em gestão ambiental. Como posso ajudar sua empresa hoje?</p>
+            <span class="message-time">Agora</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="ao-chatbot-input-container">
+        <div class="chatbot-quick-actions">
+          <button class="quick-action" data-action="licenciamento">📋 Licenciamento</button>
+          <button class="quick-action" data-action="regularizacao">⚡ Regularização</button>
+          <button class="quick-action" data-action="residuos">♻️ Resíduos</button>
+          <button class="quick-action" data-action="carbono">🌱 Carbono</button>
+        </div>
+        
+        <form class="ao-chatbot-form" id="chatbot-form">
+          <input type="text" id="chatbot-input" placeholder="Digite sua pergunta ambiental..." />
+          <button type="submit" class="chatbot-send">➤</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

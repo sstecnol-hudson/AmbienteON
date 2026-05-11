@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crédito de Carbono Rural - Calcule a renda da sua mata | AmbienteOn</title>
+  <meta name="description" content="Descubra quanto a área de Reserva Legal e APP da sua fazenda pode render em Crédito de Carbono. Calculadora gratuita por bioma e estado." />
+  <meta property="og:title" content="Crédito de Carbono Rural - AmbienteOn" />
+  <meta property="og:description" content="Calcule a renda potencial da sua mata no mercado de Crédito de Carbono." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="carbono-rural.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="ao-page">
+  <header class="ao-header">
+    <div class="ao-container ao-header-inner">
+      <div class="ao-logo">
+        <a href="index.html" class="ao-logo-text" style="text-decoration: none;">
+          <span class="ao-logo-title">AmbienteOn</span>
+          <span class="ao-logo-subtitle">Gestão Inteligente</span>
+        </a>
+      </div>
+      <nav class="ao-nav">
+        <a href="servicos.html" class="ao-nav-link">Soluções</a>
+        <a href="ferramentas.html" class="ao-nav-link ao-nav-link-highlight">Ferramentas</a>
+        <a href="normas.html" class="ao-nav-link">Biblioteca</a>
+        <a href="contato.html" class="ao-nav-link">Contato</a>
+        <a href="dashboard-cliente.html" class="ao-nav-link-admin">Área do Cliente</a>
+        <button class="ao-theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+          <span class="theme-icon light">☀️</span>
+          <span class="theme-icon dark">🌙</span>
+        </button>
+      </nav>
+      <button class="ao-menu-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="cr-hero">
+    <div class="ao-container">
+      <a href="ferramentas.html" class="ao-back-link cr-back">← Voltar para Ferramentas</a>
+      <div class="cr-hero-grid">
+        <div class="cr-hero-content">
+          <span class="cr-hero-tag">Calculadora Gratuita</span>
+          <h1>Descubra Quanto a Mata da Sua Fazenda Pode Render</h1>
+          <p class="cr-hero-text">
+            Calcule, em menos de um minuto, a renda potencial da sua área de Reserva Legal
+            e APP no mercado voluntário de Crédito de Carbono (padrão VERRA).
+          </p>
+          <div class="cr-hero-actions">
+            <a href="#calc" class="ao-btn ao-btn-primary ao-btn-lg">🧮 Calcular Agora</a>
+            <a href="#contato-rural" class="ao-btn ao-btn-outline ao-btn-lg">Falar com Especialista</a>
+          </div>
+          <div class="cr-hero-trust">
+            <div class="cr-trust-item">
+              <strong>✓</strong> Sem custo inicial
+            </div>
+            <div class="cr-trust-item">
+              <strong>✓</strong> Análise técnica gratuita
+            </div>
+            <div class="cr-trust-item">
+              <strong>✓</strong> Metodologia VERRA
+            </div>
+          </div>
+        </div>
+        <div class="cr-hero-card">
+          <div class="cr-hero-card-header">
+            <span class="cr-hero-card-icon">💰</span>
+            <h3>Exemplo Real</h3>
+          </div>
+          <p class="cr-hero-card-subtitle">Fazenda em Sorriso/MT — 480 ha de mata</p>
+          <div class="cr-hero-card-stats">
+            <div>
+              <span class="cr-stat-label">Renda anual estimada</span>
+              <span class="cr-stat-value">R$ 47 mil</span>
+            </div>
+            <div>
+              <span class="cr-stat-label">Em 25 anos</span>
+              <span class="cr-stat-value cr-stat-highlight">R$ 1,17 mi</span>
+            </div>
+          </div>
+          <p class="cr-hero-card-note">
+            * Estimativa com bioma Cerrado e cotação atual. Calcule a sua abaixo.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULADORA -->
+  <main>
+    <section class="ao-section" id="calc">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Calculadora de Receita Potencial</h2>
+          <p>Preencha quatro campos e veja a estimativa para a sua propriedade.</p>
+        </div>
+
+        <div class="cr-calc-container">
+          <form class="cr-calc-form" id="formCarbonoRural">
+            <div class="cr-form-grid">
+              <div class="cr-form-row">
+                <label for="cr-hectares">Área total de mata (hectares) *</label>
+                <input type="number" id="cr-hectares" min="1" step="0.1" placeholder="Ex: 250" required />
+                <small>Soma da Reserva Legal e APP da propriedade.</small>
+              </div>
+
+              <div class="cr-form-row">
+                <label for="cr-bioma">Bioma predominante *</label>
+                <select id="cr-bioma" required>
+                  <option value="">Selecione...</option>
+                  <option value="amazonia">Amazônia</option>
+                  <option value="cerrado" selected>Cerrado</option>
+                  <option value="mata_atlantica">Mata Atlântica</option>
+                  <option value="pantanal">Pantanal</option>
+                  <option value="pampa">Pampa</option>
+                  <option value="caatinga">Caatinga</option>
+                </select>
+                <small>Bioma com maior cobertura na área de mata.</small>
+              </div>
+
+              <div class="cr-form-row">
+                <label for="cr-estado">Estado *</label>
+                <select id="cr-estado" required>
+                  <option value="">Selecione...</option>
+                  <option value="MT" selected>Mato Grosso</option>
+                  <option value="MS">Mato Grosso do Sul</option>
+                  <option value="GO">Goiás</option>
+                  <option value="TO">Tocantins</option>
+                  <option value="PA">Pará</option>
+                  <option value="RO">Rondônia</option>
+                  <option value="MA">Maranhão</option>
+                  <option value="BA">Bahia</option>
+                  <option value="MG">Minas Gerais</option>
+                  <option value="outros">Outros</option>
+                </select>
+              </div>
+
+              <div class="cr-form-row">
+                <label for="cr-anos">Duração do projeto</label>
+                <select id="cr-anos">
+                  <option value="10">10 anos</option>
+                  <option value="20">20 anos</option>
+                  <option value="25" selected>25 anos</option>
+                  <option value="30">30 anos</option>
+                </select>
+                <small>Prazo típico de projetos VERRA: 20 a 30 anos.</small>
+              </div>
+            </div>
+
+            <button type="submit" class="ao-btn ao-btn-primary ao-btn-full ao-btn-lg">
+              🧮 Calcular Renda Potencial
+            </button>
+          </form>
+
+          <!-- RESULTADO -->
+          <div class="cr-resultado" id="crResultado" style="display: none;">
+            <div class="cr-resultado-header">
+              <h3>Sua Estimativa</h3>
+              <span class="cr-resultado-badge" id="crResumoBadge">—</span>
+            </div>
+
+            <div class="cr-resultado-destaque">
+              <div class="cr-destaque-card cr-destaque-primary">
+                <span class="cr-destaque-label">Receita líquida em <span id="crLabelAnos">25</span> anos</span>
+                <span class="cr-destaque-valor" id="crReceitaTotal">R$ 0</span>
+                <span class="cr-destaque-sub">descontados custos de projeto e certificação</span>
+              </div>
+            </div>
+
+            <div class="cr-resultado-grid">
+              <div class="cr-resultado-item">
+                <span class="cr-item-label">CO₂ absorvido por ano</span>
+                <span class="cr-item-valor" id="crTcoAno">0 tCO₂</span>
+              </div>
+              <div class="cr-resultado-item">
+                <span class="cr-item-label">Receita bruta anual</span>
+                <span class="cr-item-valor" id="crReceitaBruta">R$ 0</span>
+              </div>
+              <div class="cr-resultado-item">
+                <span class="cr-item-label">Receita líquida anual</span>
+                <span class="cr-item-valor" id="crReceitaLiquida">R$ 0</span>
+              </div>
+              <div class="cr-resultado-item">
+                <span class="cr-item-label">Créditos totais no período</span>
+                <span class="cr-item-valor" id="crCreditosTotais">0</span>
+              </div>
+            </div>
+
+            <div class="cr-breakdown">
+              <h4>Como chegamos a esse número</h4>
+              <p id="crBreakdownTexto"></p>
+            </div>
+
+            <div class="cr-resultado-cta">
+              <p><strong>Quer uma análise técnica precisa da sua propriedade?</strong> Nossa equipe avalia gratuitamente a viabilidade do projeto com base no CAR, imagens de satélite e legislação aplicável.</p>
+              <button type="button" class="ao-btn ao-btn-primary ao-btn-lg" id="crSolicitarAnalise">
+                Quero a Análise Técnica Gratuita
+              </button>
+            </div>
+
+            <div class="cr-disclaimer">
+              <strong>⚠️ Aviso:</strong> Esta calculadora fornece estimativas baseadas em valores médios
+              de absorção por bioma e cotação atual do mercado voluntário VERRA (R$ 40/tCO₂).
+              Valores reais dependem de análise técnica detalhada, qualidade da vegetação, status do CAR,
+              flutuações de mercado e parâmetros específicos do projeto. Os resultados não constituem
+              promessa de rendimento.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA (AIDA) -->
+    <section class="ao-section ao-section-alt" id="como-funciona">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Como Funciona em 4 Etapas</h2>
+          <p>Do CAR à venda dos créditos. Você não precisa fazer nada operacional.</p>
+        </div>
+
+        <div class="cr-etapas">
+          <div class="cr-etapa">
+            <div class="cr-etapa-numero">1</div>
+            <h3>Análise da propriedade</h3>
+            <p>Avaliamos seu CAR, imagens de satélite e características da vegetação para confirmar se a área é apta a gerar créditos. <strong>Sem custo nesta etapa.</strong></p>
+          </div>
+          <div class="cr-etapa">
+            <div class="cr-etapa-numero">2</div>
+            <h3>Desenvolvimento do projeto</h3>
+            <p>Elaboramos o Project Description Document seguindo a metodologia VERRA — padrão mais aceito globalmente — incluindo linha de base, adicionalidade e plano de monitoramento.</p>
+          </div>
+          <div class="cr-etapa">
+            <div class="cr-etapa-numero">3</div>
+            <h3>Certificação e emissão</h3>
+            <p>Submetemos à validação por auditor independente acreditado pela VERRA. Após aprovação, os créditos (VCUs) são emitidos no Registry e ficam <strong>100% no seu nome</strong>.</p>
+          </div>
+          <div class="cr-etapa">
+            <div class="cr-etapa-numero">4</div>
+            <h3>Venda dos créditos</h3>
+            <p>Conectamos você ativamente com indústrias compradoras nacionais e internacionais que precisam compensar emissões. Você decide quando e por quanto vender.</p>
+          </div>
+        </div>
+
+        <div class="cr-cta-banner">
+          <p>Quer entender se a sua fazenda se encaixa nesse modelo?</p>
+          <a href="#contato-rural" class="ao-btn ao-btn-primary ao-btn-lg">Falar com Especialista</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXEMPLOS -->
+    <section class="ao-section" id="exemplos">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Exemplos por Porte de Propriedade</h2>
+          <p>Estimativas com base em projetos típicos. Use a calculadora acima para sua área específica.</p>
+        </div>
+
+        <div class="cr-exemplos-grid">
+          <div class="cr-exemplo-card">
+            <div class="cr-exemplo-header">
+              <h3>Pequena Propriedade</h3>
+              <span class="cr-exemplo-tag">100 ha de Cerrado</span>
+            </div>
+            <div class="cr-exemplo-stats">
+              <div>
+                <span class="cr-exemplo-label">Anual líquido</span>
+                <strong>R$ 9,8 mil</strong>
+              </div>
+              <div>
+                <span class="cr-exemplo-label">Em 25 anos</span>
+                <strong>R$ 245 mil</strong>
+              </div>
+            </div>
+            <p class="cr-exemplo-desc">
+              Ideal para complementar a renda da safra com fluxo recorrente sem precisar plantar nada.
+            </p>
+          </div>
+
+          <div class="cr-exemplo-card cr-exemplo-destaque">
+            <div class="cr-exemplo-header">
+              <h3>Média Propriedade</h3>
+              <span class="cr-exemplo-tag">500 ha de Cerrado</span>
+            </div>
+            <div class="cr-exemplo-stats">
+              <div>
+                <span class="cr-exemplo-label">Anual líquido</span>
+                <strong>R$ 49 mil</strong>
+              </div>
+              <div>
+                <span class="cr-exemplo-label">Em 25 anos</span>
+                <strong>R$ 1,22 mi</strong>
+              </div>
+            </div>
+            <p class="cr-exemplo-desc">
+              Mais comum no perfil MT. Renda passiva equivalente a 1-2 funcionários por ano, sem custo operacional.
+            </p>
+          </div>
+
+          <div class="cr-exemplo-card">
+            <div class="cr-exemplo-header">
+              <h3>Grande Propriedade</h3>
+              <span class="cr-exemplo-tag">2.000 ha de Amazônia</span>
+            </div>
+            <div class="cr-exemplo-stats">
+              <div>
+                <span class="cr-exemplo-label">Anual líquido</span>
+                <strong>R$ 364 mil</strong>
+              </div>
+              <div>
+                <span class="cr-exemplo-label">Em 30 anos</span>
+                <strong>R$ 10,9 mi</strong>
+              </div>
+            </div>
+            <p class="cr-exemplo-desc">
+              Bioma amazônico tem maior taxa de absorção. Receita compatível com expansão patrimonial significativa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="ao-section ao-section-alt" id="faq">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Dúvidas Frequentes</h2>
+        </div>
+
+        <div class="cr-faq">
+          <div class="cr-faq-item">
+            <button class="cr-faq-question" type="button">
+              <span>Qualquer fazenda pode gerar Crédito de Carbono?</span>
+              <span class="cr-faq-icon">+</span>
+            </button>
+            <div class="cr-faq-answer">
+              <p>Não. Para gerar créditos no padrão VERRA, a propriedade precisa ter área de mata nativa em pé (Reserva Legal e/ou APP), CAR regularizado, e atender a critérios de adicionalidade. Fazendas com áreas desmatadas ilegalmente não são elegíveis. Nossa análise inicial gratuita identifica se sua propriedade se enquadra.</p>
+            </div>
+          </div>
+
+          <div class="cr-faq-item">
+            <button class="cr-faq-question" type="button">
+              <span>Qual o tamanho mínimo de mata para o projeto valer a pena?</span>
+              <span class="cr-faq-icon">+</span>
+            </button>
+            <div class="cr-faq-answer">
+              <p>Tecnicamente projetos pequenos são possíveis, mas o custo fixo de desenvolvimento e certificação torna viável a partir de aproximadamente 100 hectares. Abaixo disso, o ideal é unir-se a outros produtores em um projeto agrupado (jurisdicional), modalidade que também trabalhamos.</p>
+            </div>
+          </div>
+
+          <div class="cr-faq-item">
+            <button class="cr-faq-question" type="button">
+              <span>Quanto tempo demora para começar a receber?</span>
+              <span class="cr-faq-icon">+</span>
+            </button>
+            <div class="cr-faq-answer">
+              <p>O ciclo completo (análise, desenvolvimento do PDD, validação VERRA, primeira emissão e venda) leva entre 12 e 24 meses. A partir daí, novas emissões podem ocorrer anualmente. Projetos agrupados costumam ser mais rápidos.</p>
+            </div>
+          </div>
+
+          <div class="cr-faq-item">
+            <button class="cr-faq-question" type="button">
+              <span>Eu perco o direito de uso da terra?</span>
+              <span class="cr-faq-icon">+</span>
+            </button>
+            <div class="cr-faq-answer">
+              <p>Não. A propriedade continua sua. O contrato cria a obrigação de manter a vegetação em pé durante o período do projeto — algo que a legislação ambiental já exige para Reserva Legal e APP. Atividades compatíveis (turismo, extrativismo sustentável, manejo certificado) seguem permitidas.</p>
+            </div>
+          </div>
+
+          <div class="cr-faq-item">
+            <button class="cr-faq-question" type="button">
+              <span>Quanto custa para começar?</span>
+              <span class="cr-faq-icon">+</span>
+            </button>
+            <div class="cr-faq-answer">
+              <p>A análise inicial é gratuita. Os custos de desenvolvimento do projeto, validação VERRA e monitoramento são, em geral, descontados das receitas (modelo de partilha), de forma que o produtor não desembolsa caixa próprio. Detalhes específicos são apresentados na proposta após a análise.</p>
+            </div>
+          </div>
+
+          <div class="cr-faq-item">
+            <button class="cr-faq-question" type="button">
+              <span>É seguro? E se o mercado de carbono cair?</span>
+              <span class="cr-faq-icon">+</span>
+            </button>
+            <div class="cr-faq-answer">
+              <p>O mercado voluntário VERRA é o padrão consolidado globalmente, com demanda crescente de empresas comprometidas com metas de descarbonização. Há volatilidade de preços, mas a curva histórica é positiva. Estratégias de venda escalonada e contratos de longo prazo com compradores reduzem o risco de oscilação.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="ao-section" id="contato-rural">
+      <div class="ao-container">
+        <div class="cr-form-wrapper">
+          <div class="cr-form-header">
+            <h2>Análise Técnica Gratuita</h2>
+            <p>Preencha os dados da sua propriedade. Um especialista entra em contato em até 24h úteis.</p>
+          </div>
+
+          <form class="cr-form-lead" id="formLeadRural">
+            <div class="ao-form-grid">
+              <div class="ao-form-row">
+                <label for="lead-nome">Nome completo *</label>
+                <input type="text" id="lead-nome" name="nome" required />
+              </div>
+              <div class="ao-form-row">
+                <label for="lead-whatsapp">WhatsApp *</label>
+                <input type="tel" id="lead-whatsapp" name="whatsapp" required placeholder="(65) 99999-9999" />
+              </div>
+              <div class="ao-form-row">
+                <label for="lead-email">E-mail *</label>
+                <input type="email" id="lead-email" name="email" required />
+              </div>
+              <div class="ao-form-row">
+                <label for="lead-fazenda">Nome da fazenda</label>
+                <input type="text" id="lead-fazenda" name="fazenda" />
+              </div>
+              <div class="ao-form-row">
+                <label for="lead-area">Área aprox. de mata (ha) *</label>
+                <input type="number" id="lead-area" name="area" min="1" required />
+              </div>
+              <div class="ao-form-row">
+                <label for="lead-municipio">Município/Estado *</label>
+                <input type="text" id="lead-municipio" name="municipio" required placeholder="Ex: Sorriso/MT" />
+              </div>
+            </div>
+
+            <div class="ao-form-row">
+              <label class="ao-checkbox-label">
+                <input type="checkbox" id="lead-consentimento" required />
+                <span class="ao-checkbox-custom"></span>
+                Aceito receber contato comercial e entendo que meus dados serão usados para análise de viabilidade do projeto.
+              </label>
+            </div>
+
+            <button type="submit" class="ao-btn ao-btn-primary ao-btn-full ao-btn-lg">
+              Solicitar Análise Gratuita
+            </button>
+            <p class="cr-form-note">⚡ Resposta em até 24h úteis · Análise sem compromisso · 100% gratuita</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOTAO WHATSAPP FLUTUANTE -->
+  <a href="https://wa.me/5565999999999?text=Ol%C3%A1%2C%20vi%20a%20calculadora%20de%20Cr%C3%A9dito%20de%20Carbono%20Rural%20e%20quero%20saber%20mais."
+     class="cr-wa-float"
+     target="_blank"
+     rel="noopener"
+     aria-label="Falar no WhatsApp">
+    <span class="cr-wa-icon">💬</span>
+    <span class="cr-wa-label">WhatsApp</span>
+  </a>
+
+  <footer class="ao-footer">
+    <div class="ao-container">
+      <div class="ao-footer-grid">
+        <div class="ao-footer-col">
+          <h4>AmbienteOn</h4>
+          <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+            Soluções inteligentes em engenharia e consultoria ambiental para empresas que buscam eficiência e sustentabilidade.
+          </p>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Soluções</h4>
+          <ul class="ao-footer-links">
+            <li><a href="servicos.html">Licenciamento</a></li>
+            <li><a href="servicos.html">Resíduos Sólidos</a></li>
+            <li><a href="servicos.html">Auditoria Ambiental</a></li>
+            <li><a href="carbono-rural.html">Crédito de Carbono Rural</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Ferramentas</h4>
+          <ul class="ao-footer-links">
+            <li><a href="mapa.html">Mapa de Legislação</a></li>
+            <li><a href="normas.html">Biblioteca de Normas</a></li>
+            <li><a href="calculadora.html">Calculadora CO₂</a></li>
+            <li><a href="carbono-rural.html">Carbono Rural</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Fontes Oficiais</h4>
+          <ul class="ao-footer-links">
+            <li><a href="http://www.planalto.gov.br" target="_blank">Planalto (Leis)</a></li>
+            <li><a href="http://conama.mma.gov.br" target="_blank">CONAMA</a></li>
+            <li><a href="https://verra.org" target="_blank">VERRA</a></li>
+            <li><a href="https://www.gov.br/mma/pt-br" target="_blank">MMA</a></li>
+          </ul>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Contato</h4>
+          <ul class="ao-footer-links">
+            <li><a href="contato.html">Fale Conosco</a></li>
+            <li><a href="agendamento.html">Agendar Reunião</a></li>
+            <li><a href="mailto:contato@ambienteon.com.br">contato@ambienteon.com.br</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ao-footer-bottom">
+        <p>&copy; <span id="ao-year">2026</span> AmbienteOn. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="carbono-rural.js"></script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emissões & Ativos Pro - AmbienteOn</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="ao-app-emissoes">
+  <header class="ao-header">
+    <div class="ao-container ao-header-inner">
+      <div class="ao-logo">
+        <a href="index.html" class="ao-logo-text" style="text-decoration: none;">
+          <span class="ao-logo-title">AmbienteOn</span>
+          <span class="ao-logo-subtitle">Gestão Inteligente</span>
+        </a>
+      </div>
+      
+      <nav class="ao-nav">
+        <a href="servicos.html" class="ao-nav-link">Soluções</a>
+        <a href="ferramentas.html" class="ao-nav-link">Ferramentas</a>
+        <a href="emissoes.html" class="ao-nav-link active" style="color: var(--ao-color-primary);">Ativos</a>
+        <a href="normas.html" class="ao-nav-link">Biblioteca</a>
+        <a href="contato.html" class="ao-nav-link">Contato</a>
+        <a href="dashboard-cliente.html" class="ao-nav-link-admin">Área do Cliente</a>
+        <button class="ao-theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+          <span class="theme-icon light">☀️</span>
+          <span class="theme-icon dark">🌙</span>
+        </button>
+      </nav>
+
+      <button class="ao-menu-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="ao-container" style="padding-top: 3rem; padding-bottom: 5rem;">
+    <div class="ao-section-header" style="text-align: left; margin-bottom: 2.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <h1 style="font-size: 2.5rem; font-weight: 800;">Gestão de Emissões & Ativos</h1>
+        <span class="ao-pro-badge">PRO</span>
+      </div>
+      <p style="margin: 0; max-width: 100%;">Inventário de carbono profissional seguindo o GHG Protocol e gestão de ativos ambientais.</p>
+    </div>
+
+    <!-- Asset Dashboard -->
+    <div class="ao-asset-grid">
+      <div class="ao-asset-card">
+        <div class="ao-asset-label">Saldo de Créditos</div>
+        <div class="ao-asset-value" id="asset-credits">0.00</div>
+        <div style="font-size: 0.75rem; color: var(--ao-color-text-light);">tCO₂e disponíveis</div>
+      </div>
+      <div class="ao-asset-card">
+        <div class="ao-asset-label">Emissões Totais (YTD)</div>
+        <div class="ao-asset-value" id="asset-emissions" style="color: var(--ao-color-error);">0.00</div>
+        <div style="font-size: 0.75rem; color: var(--ao-color-text-light);">tCO₂e acumuladas</div>
+      </div>
+      <div class="ao-asset-card">
+        <div class="ao-asset-label">Índice de Neutralização</div>
+        <div class="ao-asset-value" id="asset-neutralization" style="color: var(--ao-color-accent);">0%</div>
+        <div style="font-size: 0.75rem; color: var(--ao-color-text-light);">Progresso Net Zero</div>
+      </div>
+      <div class="ao-asset-card">
+        <div class="ao-asset-label">Valor do Ativo (Estimado)</div>
+        <div class="ao-asset-value" id="asset-market-value">R$ 0,00</div>
+        <div style="font-size: 0.75rem; color: var(--ao-color-text-light);">Baseado no mercado de carbono</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2.5rem;">
+      <!-- GHG Inventory Form -->
+      <section class="ao-feature-card" style="padding: 2.5rem;">
+        <h2 style="margin-bottom: 1.5rem;">Inventário Profissional (GHG Protocol)</h2>
+        
+        <div class="ao-tab-container">
+          <button class="ao-tab-btn active" data-tab="escopo1">Escopo 1 (Direto)</button>
+          <button class="ao-tab-btn" data-tab="escopo2">Escopo 2 (Energia)</button>
+          <button class="ao-tab-btn" data-tab="escopo3">Escopo 3 (Cadeia)</button>
+        </div>
+
+        <form id="ghg-inventory-form">
+          <!-- Tab: Escopo 1 -->
+          <div class="ao-tab-content active" id="tab-escopo1">
+            <p style="font-size: 0.875rem; color: var(--ao-color-text-light); margin-bottom: 1.5rem;">
+              Emissões de fontes que pertencem ou são controladas pela organização (Combustão, Fugas de Gases, Processos).
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="ao-form-group" style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Combustão Móvel (Frota própria - L/mês)</label>
+                <input type="number" id="ghg-gasolina" placeholder="Gasolina (L)" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+              </div>
+              <div class="ao-form-group" style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">&nbsp;</label>
+                <input type="number" id="ghg-diesel" placeholder="Diesel (L)" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+              </div>
+              <div class="ao-form-group" style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Gases Refrigerantes (Recarga kg/ano)</label>
+                <input type="number" id="ghg-refrigerantes" placeholder="R-410A, R-134a, etc" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+              </div>
+              <div class="ao-form-group" style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Processos Industriais (t/ano)</label>
+                <input type="number" id="ghg-processos" placeholder="Calcinação, Síntese, etc" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Escopo 2 -->
+          <div class="ao-tab-content" id="tab-escopo2" style="display: none;">
+            <p style="font-size: 0.875rem; color: var(--ao-color-text-light); margin-bottom: 1.5rem;">
+              Emissões indiretas provenientes da aquisição de energia elétrica, térmica ou vapor.
+            </p>
+            <div class="ao-form-group" style="margin-bottom: 1rem;">
+              <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Consumo de Energia (SIN - kWh/mês)</label>
+              <input type="number" id="ghg-energia" placeholder="kWh consumidos" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+            </div>
+            <div class="ao-form-group" style="margin-bottom: 1rem;">
+              <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Aquisição de Vapor/Gelo (ton ou Mcal)</label>
+              <input type="number" id="ghg-termica" placeholder="Vapor adquirido" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+            </div>
+          </div>
+
+          <!-- Tab: Escopo 3 -->
+          <div class="ao-tab-content" id="tab-escopo3" style="display: none;">
+            <p style="font-size: 0.875rem; color: var(--ao-color-text-light); margin-bottom: 1.5rem;">
+              Outras emissões indiretas da cadeia de valor (Viagens, Resíduos, Logística terceirizada).
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="ao-form-group" style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Viagens de Negócios (km/ano)</label>
+                <input type="number" id="ghg-viagens" placeholder="Total km aéreos/terrestres" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+              </div>
+              <div class="ao-form-group" style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Transporte e Distribuição (Terceirizados)</label>
+                <input type="number" id="ghg-logistica" placeholder="ton.km" style="width: 100%; padding: 0.75rem; border: 1px solid var(--ao-color-border); border-radius: 4px;">
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button type="button" class="ao-btn ao-btn-primary" onclick="calcularGHGPro()">Calcular Inventário</button>
+            <button type="button" class="ao-btn ao-btn-outline" onclick="exportarRelatorioGHG()">Exportar PDF</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Sidebar: Roadmap and Tips -->
+      <aside>
+        <div class="ao-roadmap-container">
+          <h3 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem;">Roadmap Net Zero</h3>
+          <p style="font-size: 0.75rem; color: var(--ao-color-text-light);">Projeção de neutralidade para 2030</p>
+          
+          <div class="ao-roadmap-chart">
+            <canvas id="netzero-chart" width="300" height="200"></canvas>
+            <div class="ao-chart-line-netzero"></div>
+          </div>
+          
+          <div style="margin-top: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.5rem;">
+              <span>Progresso Atual</span>
+              <span id="roadmap-percent">12%</span>
+            </div>
+            <div style="width: 100%; height: 8px; background: var(--ao-color-border-light); border-radius: 4px; overflow: hidden;">
+              <div id="roadmap-progress-bar" style="width: 12%; height: 100%; background: var(--ao-color-primary);"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ao-feature-card" style="margin-top: 1.5rem; background: var(--ao-color-primary); color: white; border: none;">
+          <h3 style="font-size: 1.125rem; margin-bottom: 1rem;">Oportunidade de Mercado</h3>
+          <p style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 1.5rem;">
+            Sua área de reserva legal em Mato Grosso pode estar gerando créditos de biodiversidade. 
+          </p>
+          <a href="contato.html" class="ao-btn ao-btn-sm" style="background: white; color: var(--ao-color-primary); width: 100%;">Avaliar Ativo</a>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Assets Exploration -->
+    <section class="ao-section" style="padding-top: 3rem;">
+      <div class="ao-section-header" style="text-align: left; margin-bottom: 2rem;">
+        <h2>Explorar Ativos Ambientais</h2>
+        <p style="margin: 0;">Oportunidades de compensação e investimento direto em projetos de conservação.</p>
+      </div>
+
+      <div class="ao-features-grid">
+        <div class="ao-feature-card">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+            <span class="ao-pro-badge" style="background: var(--ao-color-secondary); margin: 0;">RESERVA LEGAL</span>
+            <span style="font-weight: 700;">MT-042</span>
+          </div>
+          <h3>Fazenda Santa Helena</h3>
+          <p>Projeto de conservação em bioma Cerrado. 1.200 hectares preservados.</p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 800; color: var(--ao-color-primary);">R$ 45,00 <small>/ tCO₂</small></span>
+            <button class="ao-btn ao-btn-sm ao-btn-outline">Ver Detalhes</button>
+          </div>
+        </div>
+
+        <div class="ao-feature-card">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+            <span class="ao-pro-badge" style="background: var(--ao-color-primary-dark); margin: 0;">REFLORESTAMENTO</span>
+            <span style="font-weight: 700;">AM-015</span>
+          </div>
+          <h3>Amazon Regen</h3>
+          <p>Restauração de áreas degradadas no arco do desmatamento.</p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 800; color: var(--ao-color-primary);">R$ 68,00 <small>/ tCO₂</small></span>
+            <button class="ao-btn ao-btn-sm ao-btn-outline">Ver Detalhes</button>
+          </div>
+        </div>
+
+        <div class="ao-feature-card">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+            <span class="ao-pro-badge" style="background: var(--ao-color-accent); margin: 0;">ENERGIA LIMPA</span>
+            <span style="font-weight: 700;">BR-SOLAR</span>
+          </div>
+          <h3>Complexo Solar Piauí</h3>
+          <p>Substituição de matriz energética via geração fotovoltaica.</p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 800; color: var(--ao-color-primary);">R$ 32,00 <small>/ tCO₂</small></span>
+            <button class="ao-btn ao-btn-sm ao-btn-outline">Ver Detalhes</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ao-footer">
+    <div class="ao-container">
+      <div class="ao-footer-grid">
+        <div class="ao-footer-col">
+          <h4>AmbienteOn</h4>
+          <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+            Gestão ambiental profissional e consultoria técnica para empresas sustentáveis.
+          </p>
+        </div>
+        <div class="ao-footer-col">
+          <h4>Ferramentas</h4>
+          <ul class="ao-footer-links">
+            <li><a href="emissoes.html">Gestão de Carbono</a></li>
+            <li><a href="mapa.html">Mapa de Legislação</a></li>
+            <li><a href="calculadora.html">Calculadora básica</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ao-footer-bottom">
+        <p>&copy; <span id="ao-year">2024</span> AmbienteOn. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // Lógica local para a página de Emissões (será integrada ao main.js depois)
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sistema de Abas
+      const tabs = document.querySelectorAll('.ao-tab-btn');
+      const contents = document.querySelectorAll('.ao-tab-content');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+          
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          contents.forEach(content => {
+            content.style.display = content.id === `tab-${target}` ? 'block' : 'none';
+          });
+        });
+      });
+
+      // Inicializar gráfico netzero (simulado)
+      if (typeof initializeNetZeroChart === 'function') {
+        initializeNetZeroChart();
+      }
+    });
+
+    function calcularGHGPro() {
+      showNotification('Calculando inventário completo (Escopos 1, 2 e 3)...', 'info');
+      // A lógica real será adicionada ao main.js
+      setTimeout(() => {
+        const total = (Math.random() * 500 + 100).toFixed(2);
+        document.getElementById('asset-emissions').textContent = total;
+        document.getElementById('asset-neutralization').textContent = (Math.random() * 20).toFixed(1) + '%';
+        document.getElementById('asset-market-value').textContent = 'R$ ' + (total * 55).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        
+        showNotification('Inventário atualizado com sucesso!', 'success');
+      }, 1500);
+    }
+
+    function exportarRelatorioGHG() {
+      showNotification('Gerando relatório técnico em conformidade com ISO 14064...', 'info');
+      setTimeout(() => {
+        alert('Relatório exportado com sucesso! (Simulado)');
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
