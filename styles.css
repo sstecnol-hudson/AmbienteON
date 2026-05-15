@@ -685,37 +685,6 @@
 /* Animação de contadores */
 .metric-number { display: inline-block; }
 
-  --ao-color-primary-medium: #10b981;
-  --ao-color-primary-light: #d1fae5;
-  --ao-color-secondary: #f59e0b;
-  --ao-color-secondary-dark: #b45309;
-  --ao-color-accent: #3b82f6;
-  --ao-color-warning: #f59e0b;
-  --ao-color-error: #ef4444;
-  --ao-color-success: #10b981;
-  
-  --ao-color-text: #0f172a;
-  --ao-color-text-light: #64748b;
-  --ao-color-bg: #ffffff;
-  --ao-color-bg-alt: #f8fafc;
-  --ao-color-border: #e2e8f0;
-  --ao-color-border-light: #f1f5f9;
-  
-  --ao-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --ao-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --ao-shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --ao-shadow-premium: 0 10px 40px -10px rgba(6, 78, 59, 0.15);
-  
-  --ao-border-radius: 0.5rem;
-  --ao-border-radius-lg: 1rem;
-  --ao-border-radius-xl: 1.5rem;
-  --ao-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  --ao-header-height: 80px;
-  --ao-glass-bg: rgba(255, 255, 255, 0.7);
-  --ao-glass-border: rgba(255, 255, 255, 0.5);
-}
-
 /* Reset & Base */
 * {
   margin: 0;
