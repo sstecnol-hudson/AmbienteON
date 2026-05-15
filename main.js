@@ -1,5 +1,51 @@
 // Sistema AmbienteOn - JavaScript Principal
 
+// ===== ANIMAÇÃO DE CONTADORES =====
+function animateCounter(el) {
+  const target = parseInt(el.getAttribute('data-count'));
+  const duration = 1800;
+  const start = performance.now();
+  
+  const update = (time) => {
+    const progress = Math.min((time - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+// Inicia contadores quando ficam visíveis
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.metric-number').forEach(el => counterObserver.observe(el));
+
+// ===== SCROLL REVEAL =====
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.bento-card, .diff-card-v2, .tool-showcase-card, .float-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  revealObserver.observe(el);
+});
+
+
+
 // Registrar Service Worker para PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
