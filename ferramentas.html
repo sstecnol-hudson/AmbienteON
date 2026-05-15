@@ -52,43 +52,96 @@
   <main>
     <section class="ao-section">
       <div class="ao-container">
+        <div class="ao-section-header">
+          <span class="ao-badge">Gratuito</span>
+          <h2>Ferramentas de Alta Performance</h2>
+          <p>Recursos exclusivos desenvolvidos para simplificar a conformidade ambiental e impulsionar seus resultados.</p>
+        </div>
         
-        <div class="ao-tools-grid">
-          <a href="calculadora.html" class="ao-tool-card">
-            <div class="ao-tool-icon">🌱</div>
-            <h3>Calculadora Carbono</h3>
-            <p>Calcule e neutralize suas emissões.</p>
-          </a>
+        <div class="ao-features-grid">
+          <!-- Tool 1: Verificador de Licença -->
+          <div class="ao-feature-card tool-interactive" id="tool-licenca">
+            <div class="ao-feature-icon">🔍</div>
+            <div class="ao-tool-badge">Popular</div>
+            <h3>Verificador de Licença Ambiental</h3>
+            <p>Descubra instantaneamente se sua atividade precisa de licenciamento e qual a modalidade exigida no Mato Grosso.</p>
+            <button class="ao-btn ao-btn-primary ao-btn-sm">Iniciar Verificação</button>
+          </div>
           
-          <a href="carbono-rural.html" class="ao-tool-card">
-            <div class="ao-tool-icon">🌳</div>
-            <h3>Carbono Rural</h3>
-            <p>Estime a receita da sua área verde.</p>
+          <!-- Tool 5: Calculadora Reserva Legal (MT Focus) -->
+          <div class="ao-feature-card tool-interactive" id="tool-reserva">
+            <div class="ao-feature-icon">📊</div>
+            <h3>Calculadora de Reserva Legal</h3>
+            <p>Cálculo preciso baseado no bioma (Cerrado, Amazônia ou Pantanal) e tamanho da propriedade para produtores rurais.</p>
+            <button class="ao-btn ao-btn-primary ao-btn-sm">Calcular Agora</button>
+          </div>
+
+          <!-- Tool 3: Consultor de CAR -->
+          <div class="ao-feature-card" id="tool-car">
+            <div class="ao-feature-icon">🗺️</div>
+            <h3>Consultor de CAR</h3>
+            <p>Análise simplificada do status do seu Cadastro Ambiental Rural, prazos e riscos de irregularidade.</p>
+            <button class="ao-btn ao-btn-outline ao-btn-sm">Analisar Status</button>
+          </div>
+
+          <!-- Tool 2: Checklists por Setor -->
+          <div class="ao-feature-card" id="tool-checklist">
+            <div class="ao-feature-icon">📋</div>
+            <h3>Checklist de Conformidade</h3>
+            <p>Guias específicos para Postos, Indústrias e Agronegócio. Verifique o que falta para sua regularização.</p>
+            <button class="ao-btn ao-btn-outline ao-btn-sm">Baixar Checklists</button>
+          </div>
+
+          <!-- Tool 4: Chat IA Especializado -->
+          <div class="ao-feature-card" id="tool-ia">
+            <div class="ao-feature-icon">🤖</div>
+            <div class="ao-tool-badge" style="background: var(--ao-color-accent);">IA Beta</div>
+            <h3>Assistente Legislativo IA</h3>
+            <p>Tire dúvidas técnicas sobre CONAMA, SEMA-MT e prazos com nossa IA treinada em legislação ambiental.</p>
+            <button class="ao-btn ao-btn-outline ao-btn-sm" onclick="document.getElementById('chatbot-button').click()">Conversar agora</button>
+          </div>
+
+          <!-- Tool 6: Alertas de Prazos -->
+          <div class="ao-feature-card" id="tool-alertas">
+            <div class="ao-feature-icon">📅</div>
+            <h3>Alertas de Prazos</h3>
+            <p>Nunca mais perca o vencimento de uma licença. Receba notificações automáticas sobre mudanças na lei.</p>
+            <button class="ao-btn ao-btn-outline ao-btn-sm">Ativar Alertas</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Outros Recursos Section -->
+    <section class="ao-section ao-section-alt">
+      <div class="ao-container">
+        <div class="ao-section-header">
+          <h2>Outras Calculadoras e Recursos</h2>
+          <p>Explore nosso ecossistema completo de gestão ambiental.</p>
+        </div>
+        <div class="ao-features-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+          <a href="calculadora.html" class="ao-tool-card-sm">
+            <span>🌱</span>
+            <h4>Calculadora Carbono</h4>
           </a>
-          
-          <a href="mapa.html" class="ao-tool-card">
-            <div class="ao-tool-icon">🗺️</div>
-            <h3>Mapa Legislação</h3>
-            <p>Exigências por região e atividade.</p>
+          <a href="carbono-rural.html" class="ao-tool-card-sm">
+            <span>🌳</span>
+            <h4>Renda Carbono Rural</h4>
           </a>
-          
-          <a href="dashboard-cliente.html" class="ao-tool-card">
-            <div class="ao-tool-icon">📊</div>
-            <h3>Dashboard</h3>
-            <p>Monitore seus indicadores.</p>
+          <a href="mapa.html" class="ao-tool-card-sm">
+            <span>🌍</span>
+            <h4>Mapa de Legislação</h4>
           </a>
-          
-          <a href="normas.html" class="ao-tool-card">
-            <div class="ao-tool-icon">📚</div>
-            <h3>Biblioteca Normas</h3>
-            <p>Legislação ambiental atualizada.</p>
+          <a href="normas.html" class="ao-tool-card-sm">
+            <span>📚</span>
+            <h4>Biblioteca de Normas</h4>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Nova Seção: LegalTechs e Monitoramento -->
-    <section class="ao-section ao-section-alt">
+    <!-- Ecossistema Section -->
+    <section class="ao-section">
       <div class="ao-container">
         <div class="ao-section-header">
           <h2>Ecossistema de Inovação (LegalTechs)</h2>
@@ -99,34 +152,44 @@
           <div class="ao-feature-card">
             <div class="ao-feature-icon">🚜</div>
             <h3>Agrotools</h3>
-            <p>Líder em tecnologia para o agronegócio. Oferece APIs robustas focadas em monitoramento de regras ambientais, análise de território e conformidade com o Código Florestal em tempo real.</p>
+            <p>Líder em tecnologia para o agronegócio. Monitoramento de regras ambientais e conformidade com o Código Florestal.</p>
             <a href="https://agrotools.com.br/" target="_blank" class="ao-feature-link">Conhecer <span>→</span></a>
           </div>
           
           <div class="ao-feature-card">
             <div class="ao-feature-icon">🤖</div>
             <h3>Legisla.tech</h3>
-            <p>Plataforma inovadora que utiliza Inteligência Artificial para realizar buscas semânticas, monitoramento legislativo e análise preditiva de riscos em leis brasileiras.</p>
+            <p>IA para buscas semânticas, monitoramento legislativo e análise preditiva de riscos em leis brasileiras.</p>
             <a href="https://legisla.tech/" target="_blank" class="ao-feature-link">Conhecer <span>→</span></a>
           </div>
           
           <div class="ao-feature-card">
             <div class="ao-feature-icon">♻️</div>
             <h3>Vertown</h3>
-            <p>Plataforma completa para gestão de resíduos e logística reversa. Garante rastreabilidade total e compliance ambiental em toda a cadeia de suprimentos da sua empresa.</p>
+            <p>Plataforma completa para gestão de resíduos e logística reversa. Rastreabilidade total e compliance.</p>
             <a href="https://vertown.com/" target="_blank" class="ao-feature-link">Conhecer <span>→</span></a>
           </div>
           
           <div class="ao-feature-card">
             <div class="ao-feature-icon">🛡️</div>
             <h3>Lema Ambiental</h3>
-            <p>Sistema especializado na gestão de condicionantes de licenças ambientais, garantindo que sua empresa atenda a todos os prazos e requisitos legais.</p>
+            <p>Sistema especializado na gestão de condicionantes de licenças ambientais e prazos legais.</p>
             <a href="https://lemaambiental.com.br" target="_blank" class="ao-feature-link">Conhecer <span>→</span></a>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Modais para Ferramentas Interativas -->
+  <div class="ao-modal-overlay" id="tool-modal">
+    <div class="ao-modal-content">
+      <span class="ao-modal-close" id="modal-close">&times;</span>
+      <div id="modal-body">
+        <!-- Conteúdo dinâmico injetado via JS -->
+      </div>
+    </div>
+  </div>
   
   <footer class="ao-footer">
     <div class="ao-container">

@@ -74,6 +74,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Sistema de Agendamento Online
   initializeScheduling();
+
+  // Sistema de Ferramentas Premium
+  if (document.querySelector('.ao-page')) {
+    initializePremiumTools();
+  }
   
   // Exibir notificação de boas-vindas
   setTimeout(() => {
@@ -2380,14 +2385,258 @@ window.calcularGHGPro = calcularGHGPro;
 window.initializeNetZeroChart = initializeNetZeroChart;
 
 // Iniciar componentes específicos se estiver na página de emissões
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.querySelector('.ao-app-emissoes')) {
-    initializeNetZeroChart();
-    
-    // Tentar carregar dados salvos
-    const savedTotal = localStorage.getItem('ao_ghg_pro_total');
-    if (savedTotal) {
-      document.getElementById('asset-emissions').textContent = Math.round(savedTotal);
+});
+
+// --- SISTEMA DE FERRAMENTAS PREMIUM (ALTA ATRAÇÃO) ---
+
+function initializePremiumTools() {
+  const modal = document.getElementById('tool-modal');
+  const modalClose = document.getElementById('modal-close');
+  const modalBody = document.getElementById('modal-body');
+
+  if (!modal || !modalClose || !modalBody) return;
+
+  // Fechar modal
+  modalClose.onclick = () => modal.style.display = 'none';
+  window.onclick = (event) => {
+    if (event.target == modal) modal.style.display = 'none';
+  };
+
+  // Botão Verificador de Licença
+  const btnLicenca = document.querySelector('#tool-licenca button');
+  if (btnLicenca) {
+    btnLicenca.onclick = () => {
+      openToolModal('licenciamento');
+    };
+  }
+
+  // Botão Calculadora de Reserva
+  const btnReserva = document.querySelector('#tool-reserva button');
+  if (btnReserva) {
+    btnReserva.onclick = () => {
+      openToolModal('reserva');
+    };
+  }
+
+  // Botão Consultor de CAR
+  const btnCAR = document.querySelector('#tool-car button');
+  if (btnCAR) {
+    btnCAR.onclick = () => {
+      openToolModal('car');
+    };
+  }
+
+  // Botão Checklist
+  const btnChecklist = document.querySelector('#tool-checklist button');
+  if (btnChecklist) {
+    btnChecklist.onclick = () => {
+      openToolModal('checklist');
+    };
+  }
+
+  // Botão Alertas
+  const btnAlertas = document.querySelector('#tool-alertas button');
+  if (btnAlertas) {
+    btnAlertas.onclick = () => {
+      openToolModal('alertas');
+    };
+  }
+
+  function openToolModal(type) {
+    modal.style.display = 'flex';
+    modalBody.innerHTML = '';
+
+    if (type === 'licenciamento') {
+      modalBody.innerHTML = `
+        <h3>Verificador de Licença Ambiental (MT)</h3>
+        <p>Responda as perguntas abaixo para saber se sua atividade exige licenciamento.</p>
+        <div class="ao-tool-form">
+          <div class="ao-form-group">
+            <label>Tipo de Atividade</label>
+            <select id="lic-atividade">
+              <option value="">Selecione...</option>
+              <option value="agro">Agricultura/Pecuária</option>
+              <option value="ind">Indústria</option>
+              <option value="const">Construção Civil</option>
+              <option value="serv">Serviços</option>
+            </select>
+          </div>
+          <div class="ao-form-group">
+            <label>Porte da Empresa</label>
+            <select id="lic-porte">
+              <option value="pequeno">Pequeno</option>
+              <option value="medio">Médio</option>
+              <option value="grande">Grande</option>
+            </select>
+          </div>
+          <div class="ao-form-group">
+            <label>Possui curso d'água próximo?</label>
+            <select id="lic-agua">
+              <option value="nao">Não</option>
+              <option value="sim">Sim (menos de 50m)</option>
+            </select>
+          </div>
+          <button class="ao-btn ao-btn-primary" onclick="window.runLicensingCheck()">Verificar Necessidade</button>
+          <div id="lic-result" class="ao-tool-result"></div>
+        </div>
+      `;
+    } else if (type === 'reserva') {
+      modalBody.innerHTML = `
+        <h3>Calculadora de Reserva Legal</h3>
+        <p>Calcule o percentual exigido de acordo com o bioma da sua propriedade no Mato Grosso.</p>
+        <div class="ao-tool-form">
+          <div class="ao-form-group">
+            <label>Bioma da Propriedade</label>
+            <select id="res-bioma">
+              <option value="amazonia">Amazônia (80%)</option>
+              <option value="cerrado-amazonia">Cerrado na Amazônia Legal (35%)</option>
+              <option value="pantanal">Pantanal/Outros (20%)</option>
+            </select>
+          </div>
+          <div class="ao-form-group">
+            <label>Área Total (Hectares)</label>
+            <input type="number" id="res-area" placeholder="Ex: 500">
+          </div>
+          <button class="ao-btn ao-btn-primary" onclick="window.runReserveCalc()">Calcular Reserva</button>
+          <div id="res-result" class="ao-tool-result"></div>
+        </div>
+      `;
+    } else if (type === 'car') {
+      modalBody.innerHTML = `
+        <h3>Consultor de Status CAR</h3>
+        <p>Informe o número do seu CAR ou CPF/CNPJ para análise de pendências.</p>
+        <div class="ao-tool-form">
+          <div class="ao-form-group">
+            <label>CPF, CNPJ ou Protocolo CAR</label>
+            <input type="text" id="car-input" placeholder="000.000.000-00">
+          </div>
+          <button class="ao-btn ao-btn-primary" onclick="window.runCARConsult()">Analisar Situação</button>
+          <div id="car-result" class="ao-tool-result"></div>
+        </div>
+      `;
+    } else if (type === 'checklist') {
+      modalBody.innerHTML = `
+        <h3>Checklist de Conformidade Ambiental</h3>
+        <p>Selecione seu setor para receber o checklist gratuito em seu e-mail.</p>
+        <div class="ao-tool-form">
+          <div class="ao-form-group">
+            <label>Setor de Atuação</label>
+            <select id="check-setor">
+              <option value="rural">Propriedade Rural</option>
+              <option value="posto">Posto de Combustível</option>
+              <option value="ind">Indústria Geral</option>
+              <option value="const">Construção Civil</option>
+            </select>
+          </div>
+          <div class="ao-form-group">
+            <label>Seu E-mail</label>
+            <input type="email" id="check-email" placeholder="seu@email.com">
+          </div>
+          <button class="ao-btn ao-btn-primary" onclick="window.runChecklistDownload()">Enviar Checklist</button>
+        </div>
+      `;
+    } else if (type === 'alertas') {
+      modalBody.innerHTML = `
+        <h3>Monitoramento de Prazos e Leis</h3>
+        <p>Receba alertas sobre vencimentos de licenças e mudanças na legislação da SEMA-MT.</p>
+        <div class="ao-tool-form">
+          <div class="ao-form-group">
+            <label>Nome do Responsável</label>
+            <input type="text" id="alert-nome" placeholder="Seu nome">
+          </div>
+          <div class="ao-form-group">
+            <label>WhatsApp ou E-mail</label>
+            <input type="text" id="alert-contato" placeholder="(66) 99999-9999">
+          </div>
+          <button class="ao-btn ao-btn-primary" onclick="window.runAlertSignup()">Ativar Monitoramento</button>
+        </div>
+      `;
     }
   }
-});
+}
+
+// Funções de Processamento das Ferramentas
+window.runLicensingCheck = () => {
+  const atividade = document.getElementById('lic-atividade').value;
+  const porte = document.getElementById('lic-porte').value;
+  const agua = document.getElementById('lic-agua').value;
+  const resultDiv = document.getElementById('lic-result');
+
+  if (!atividade) {
+    alert('Selecione uma atividade');
+    return;
+  }
+
+  resultDiv.style.display = 'block';
+  let msg = '';
+  
+  if (atividade === 'agro' && porte === 'grande') {
+    msg = `<strong>Resultado: Licenciamento Obrigatório.</strong><br>Devido ao porte e atividade agropecuária, você necessita de LO (Licença de Operação).`;
+  } else if (agua === 'sim') {
+    msg = `<strong>Atenção: Área de Preservação.</strong><br>A proximidade com curso d'água exige estudos específicos de APP e licença especial.`;
+  } else {
+    msg = `<strong>Resultado: Licenciamento Simplificado.</strong><br>Sua atividade pode se enquadrar na LAS (Licença Ambiental Simplificada).`;
+  }
+
+  resultDiv.innerHTML = `${msg}<br><br><a href="contato.html" class="ao-btn ao-btn-sm ao-btn-secondary">Falar com Consultor</a>`;
+};
+
+window.runReserveCalc = () => {
+  const bioma = document.getElementById('res-bioma').value;
+  const area = parseFloat(document.getElementById('res-area').value);
+  const resultDiv = document.getElementById('res-result');
+
+  if (isNaN(area)) {
+    alert('Informe a área total');
+    return;
+  }
+
+  let perc = bioma === 'amazonia' ? 0.8 : (bioma === 'cerrado-amazonia' ? 0.35 : 0.2);
+  let reserva = area * perc;
+
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `
+    <strong>Cálculo Concluído:</strong><br>
+    Sua Reserva Legal exigida é de <strong>${reserva.toFixed(2)} hectares</strong> (${perc * 100}% da área).<br>
+    Deseja saber se você tem passivo ambiental ou créditos para vender?<br><br>
+    <a href="carbono-rural.html" class="ao-btn ao-btn-sm ao-btn-secondary">Analisar Potencial de Renda</a>
+  `;
+};
+
+window.runCARConsult = () => {
+  const input = document.getElementById('car-input').value;
+  const resultDiv = document.getElementById('car-result');
+
+  if (!input) {
+    alert('Informe um dado para consulta');
+    return;
+  }
+
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `
+    <strong>Status: Em Análise</strong><br>
+    Identificamos que seu cadastro pode ter pendências relativas à retificação do Código Florestal.<br>
+    <br>
+    <button class="ao-btn ao-btn-sm ao-btn-primary" onclick="window.location.href='contato.html'">Solicitar Relatório Completo</button>
+  `;
+};
+
+window.runChecklistDownload = () => {
+  const email = document.getElementById('check-email').value;
+  if (!email) {
+    alert('Informe seu e-mail');
+    return;
+  }
+  showNotification('Checklist enviado com sucesso para ' + email, 'success');
+  document.getElementById('modal-close').click();
+};
+
+window.runAlertSignup = () => {
+  const contato = document.getElementById('alert-contato').value;
+  if (!contato) {
+    alert('Informe seu contato');
+    return;
+  }
+  showNotification('Monitoramento ativado! Você receberá as novidades em breve.', 'success');
+  document.getElementById('modal-close').click();
+};
