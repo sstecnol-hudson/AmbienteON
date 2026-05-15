@@ -45,10 +45,25 @@ export default async function handler(req, res) {
 
     // Tenta enviar o email
     const emailResponse = await resend.emails.send({
-      from: 'AmbienteON <onboarding@resend.dev>', 
+      from: 'AmbienteON <noreply@ambienteon.com.br>',
       to: process.env.CONTACT_EMAIL || 'contato@ambienteon.com.br',
+      reply_to: data.email || undefined,
       subject: subject,
-      html: htmlContent,
+      html: `
+        <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+          <div style="background: linear-gradient(135deg, #065f46, #047857); padding: 24px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 1.5rem;">AmbienteON</h1>
+            <p style="color: rgba(255,255,255,0.8); margin: 4px 0 0;">Novo Contato Recebido</p>
+          </div>
+          <div style="padding: 32px; background: #f9fafb;">
+            <h2 style="color: #065f46; margin-top: 0;">Formulário: ${type}</h2>
+            ${htmlContent}
+          </div>
+          <div style="padding: 16px; background: #e5e7eb; text-align: center;">
+            <p style="color: #6b7280; font-size: 0.8rem; margin: 0;">AmbienteON – Gestão Ambiental Inteligente | ambienteon.com.br</p>
+          </div>
+        </div>
+      `,
     });
 
     // Se estivermos num ambiente de desenvolvimento/teste sem chave válida, simulamos sucesso
