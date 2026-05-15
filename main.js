@@ -366,44 +366,47 @@ function showNotification(message, type = 'info') {
   });
 }
 
-// Simular envio de formulário (para demonstração)
-function simulateFormSubmission(data, type) {
-  // Mostrar loading
-  const submitButton = document.querySelector('button[type="submit"]:focus');
-  const originalText = submitButton.textContent;
-  submitButton.textContent = 'Enviando...';
-  submitButton.disabled = true;
+// Envio real de formulário via API Vercel
+async function submitForm(data, type) {
+  const submitButton = document.querySelector('button[type="submit"]:focus') || document.activeElement;
+  const originalText = submitButton ? submitButton.textContent : 'Enviar';
   
-  // Simular delay de rede
-  setTimeout(() => {
-    // Gerar ID de protocolo
-    const protocolo = 'AO' + Date.now().toString().slice(-6);
-    
-    // Mostrar mensagem de sucesso
-    alert(
-      `✅ ${type === 'solicitacao' ? 'Solicitação' : 'Mensagem'} enviada com sucesso!\n\n` +
-      `Protocolo: ${protocolo}\n` +
-      `Entraremos em contato em breve.`
-    );
-    
-    // Resetar formulário
-    const form = submitButton.closest('form');
-    form.reset();
-    
-    // Resetar botão
-    submitButton.textContent = originalText;
-    submitButton.disabled = false;
-    
-    // Atualizar serviços selecionados (se for solicitação)
-    if (type === 'solicitacao') {
-      initializeServiceSelection();
+  if (submitButton) {
+    submitButton.textContent = 'Enviando...';
+    submitButton.disabled = true;
+  }
+  
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, type })
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert(`✅ Recebemos sua solicitação!\n\nProtocolo gerado. Entraremos em contato em breve.`);
+      const form = submitButton ? submitButton.closest('form') : null;
+      if (form) form.reset();
+      if (type === 'solicitacao') initializeServiceSelection();
+    } else {
+      throw new Error(result.message || 'Erro no servidor');
     }
-    
-    // Log para desenvolvimento (em produção, isso seria um envio real)
-    console.log(`Dados do formulário (${type}):`, data);
-    console.log(`Protocolo: ${protocolo}`);
-    
-  }, 2000);
+  } catch (error) {
+    alert('❌ Erro ao enviar. Por favor, tente novamente via WhatsApp ou e-mail.');
+    console.error('Erro no envio:', error);
+  } finally {
+    if (submitButton) {
+      submitButton.textContent = originalText;
+      submitButton.disabled = false;
+    }
+  }
+}
+
+// Alias para manter compatibilidade com chamadas existentes
+function simulateFormSubmission(data, type) {
+  submitForm(data, type);
 }
 
 // Função utilitária para máscara de CNPJ (pode ser expandida)
@@ -2603,9 +2606,10 @@ window.runReserveCalc = () => {
   `;
 };
 
-window.runCARConsult = () => {
+window.runCARConsult = async () => {
   const input = document.getElementById('car-input').value;
   const resultDiv = document.getElementById('car-result');
+  const btn = document.activeElement;
 
   if (!input) {
     alert('Informe um dado para consulta');
@@ -2613,30 +2617,61 @@ window.runCARConsult = () => {
   }
 
   resultDiv.style.display = 'block';
-  resultDiv.innerHTML = `
-    <strong>Status: Em Análise</strong><br>
-    Identificamos que seu cadastro pode ter pendências relativas à retificação do Código Florestal.<br>
-    <br>
-    <button class="ao-btn ao-btn-sm ao-btn-primary" onclick="window.location.href='contato.html'">Solicitar Relatório Completo</button>
-  `;
+  resultDiv.innerHTML = '<em>Consultando bases governamentais (SEMA/SICAR)...</em>';
+  if (btn && btn.tagName === 'BUTTON') btn.disabled = true;
+
+  try {
+    const response = await fetch('/api/car-status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifier: input })
+    });
+    const data = await response.json();
+
+    resultDiv.innerHTML = `
+      <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.05); border-left: 4px solid ${data.riskLevel === 'baixo' ? '#10b981' : (data.riskLevel === 'alto' ? '#ef4444' : '#f59e0b')}">
+        <strong>Status: ${data.status}</strong><br>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">${data.message}</p>
+        <button class="ao-btn ao-btn-sm ao-btn-primary" style="margin-top: 1rem;" onclick="window.location.href='contato.html'">Solicitar Relatório Completo</button>
+      </div>
+    `;
+  } catch (error) {
+    resultDiv.innerHTML = '<p style="color: #ef4444;">Erro ao conectar com a base de dados. Tente novamente mais tarde.</p>';
+  } finally {
+    if (btn && btn.tagName === 'BUTTON') btn.disabled = false;
+  }
 };
 
-window.runChecklistDownload = () => {
+window.runChecklistDownload = async () => {
   const email = document.getElementById('check-email').value;
+  const setor = document.getElementById('check-setor').value;
+  
   if (!email) {
     alert('Informe seu e-mail');
     return;
   }
+
+  // Capturar lead via API de contato
+  submitForm({ email, setor }, 'Download de Checklist');
+  
   showNotification('Checklist enviado com sucesso para ' + email, 'success');
-  document.getElementById('modal-close').click();
+  const closeBtn = document.getElementById('modal-close');
+  if (closeBtn) closeBtn.click();
 };
 
-window.runAlertSignup = () => {
+window.runAlertSignup = async () => {
   const contato = document.getElementById('alert-contato').value;
+  const nome = document.getElementById('alert-nome').value;
+
   if (!contato) {
     alert('Informe seu contato');
     return;
   }
+
+  // Capturar lead via API de contato
+  submitForm({ nome, contato }, 'Ativação de Alertas');
+
   showNotification('Monitoramento ativado! Você receberá as novidades em breve.', 'success');
-  document.getElementById('modal-close').click();
+  const closeBtn = document.getElementById('modal-close');
+  if (closeBtn) closeBtn.click();
 };

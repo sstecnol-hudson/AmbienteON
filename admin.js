@@ -1,4 +1,8 @@
-// Admin JavaScript - AmbienteOn
+// Configuração do Supabase (Substitua pelos seus dados do painel do Supabase)
+const SUPABASE_URL = 'https://sua-url.supabase.co';
+const SUPABASE_KEY = 'sua-chave-anonima';
+const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
 class AdminSystem {
     constructor() {
         this.currentUser = null;
@@ -6,10 +10,10 @@ class AdminSystem {
         this.init();
     }
 
-    init() {
+    async init() {
         this.checkAuth();
         this.setupEventListeners();
-        this.loadSampleData();
+        await this.loadRealData();
     }
 
     checkAuth() {
@@ -70,20 +74,34 @@ class AdminSystem {
         }
     }
 
-    handleLogin(e) {
+    async handleLogin(e) {
         e.preventDefault();
         const form = e.target;
-        const user = form.usuario.value.trim();
+        const email = form.usuario.value.trim();
         const password = form.senha.value;
 
-        // Simple authentication (in production, use secure backend)
-        if (user === 'admin' && password === 'ambienteon2024') {
-            this.currentUser = { name: 'Jaqueline do Nascimento', role: 'Administrador' };
+        if (!supabase) {
+            this.showLoginError('Erro: Supabase não configurado');
+            return;
+        }
+
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) throw error;
+
+            this.currentUser = { 
+                email: data.user.email, 
+                name: data.user.user_metadata.full_name || 'Usuário', 
+                role: 'Administrador' 
+            };
             localStorage.setItem('adminUser', JSON.stringify(this.currentUser));
-            // Redirect to dashboard page
             window.location.href = 'dashboard.html';
-        } else {
-            this.showLoginError('Usuário ou senha incorretos');
+        } catch (error) {
+            this.showLoginError('Erro no login: ' + error.message);
         }
     }
 
@@ -163,49 +181,35 @@ class AdminSystem {
         }
     }
 
-    loadSampleData() {
-        // Sample data for demonstration
-        this.solicitations = [
-            {
-                id: 'AO' + Date.now().toString().slice(-6),
-                date: new Date().toLocaleDateString('pt-BR'),
-                company: 'Indústria Madeireira LTDA',
-                cnpj: '12.345.678/0001-90',
-                contact: 'Carlos Silva',
-                phone: '(65) 99876-5432',
-                email: 'carlos@madeireira.com.br',
-                services: ['Licenciamento Ambiental', 'MTR'],
-                status: 'pending',
-                urgency: 'normal',
-                message: 'Precisamos regularizar o licenciamento da nova unidade fabril.'
-            },
-            {
-                id: 'AO' + (Date.now() - 86400000).toString().slice(-6),
-                date: new Date(Date.now() - 86400000).toLocaleDateString('pt-BR'),
-                company: 'Agropecuária ABC',
-                cnpj: '98.765.432/0001-10',
-                contact: 'Maria Santos',
-                phone: '(65) 98765-4321',
-                email: 'maria@agroabc.com.br',
-                services: ['CAR', 'PGRS'],
-                status: 'analysis',
-                urgency: 'high',
-                message: 'Solicito orçamento para regularização do CAR e elaboração do PGRS.'
-            },
-            {
-                id: 'AO' + (Date.now() - 172800000).toString().slice(-6),
-                date: new Date(Date.now() - 172800000).toLocaleDateString('pt-BR'),
-                company: 'Comércio de Produtos Químicos',
-                cnpj: '11.222.333/0001-44',
-                contact: 'João Oliveira',
-                phone: '(65) 99654-3210',
-                email: 'joao@quimicos.com.br',
-                services: ['CTF', 'PGRSS'],
-                status: 'budget',
-                urgency: 'normal',
-                message: 'Necessitamos de orientação sobre o controle de produtos químicos.'
-            }
-        ];
+    async loadRealData() {
+        if (!supabase || !this.currentUser) return;
+
+        try {
+            const { data, error } = await supabase
+                .from('leads')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            this.solicitations = data.map(lead => ({
+                id: lead.id.toString().slice(-6),
+                date: new Date(lead.created_at).toLocaleDateString('pt-BR'),
+                company: lead.dados.company || lead.dados.empresa || 'N/A',
+                cnpj: lead.dados.cnpj || 'N/A',
+                contact: lead.dados.contact || lead.dados.nome || 'N/A',
+                phone: lead.dados.phone || lead.dados.telefone || 'N/A',
+                email: lead.dados.email || 'N/A',
+                services: Array.isArray(lead.dados.services) ? lead.dados.services : [lead.tipo],
+                status: lead.status || 'pending',
+                urgency: lead.dados.urgency || 'normal',
+                message: lead.dados.message || lead.dados.mensagem || lead.tipo
+            }));
+
+            this.renderDashboard();
+        } catch (error) {
+            console.error('Erro ao carregar dados:', error);
+        }
     }
 
     renderDashboard() {

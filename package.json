@@ -1,0 +1,16 @@
+{
+  "name": "ambienteon",
+  "version": "1.0.0",
+  "description": "Landing page for **AmbienteON** – a web platform presenting tools, emissions data, and services for environmental management.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.4",
+    "resend": "^6.12.3"
+  }
+}
