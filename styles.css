@@ -22,7 +22,7 @@
   --ao-border-radius-lg: 1rem;
   --ao-border-radius-xl: 1.5rem;
   --ao-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --ao-header-height: 80px;
+  --ao-header-height: 140px;
   --ao-glass-bg: rgba(255, 255, 255, 0.7);
   --ao-glass-border: rgba(255, 255, 255, 0.5);
 }
@@ -830,17 +830,14 @@ img, svg {
 }
 
 .ao-logo-img {
-  height: 48px;
+  height: 110px; /* Logo 200%+ maior */
   object-fit: contain;
-  mix-blend-mode: multiply; /* Remove o fundo branco perfeitamente no light mode */
   transition: all 0.3s ease;
 }
 
 .dark-mode .ao-logo-img {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 4px 12px;
-  border-radius: 8px;
-  mix-blend-mode: normal;
+  /* Em vez de uma caixa branca feia, adicionamos um brilho branco sutil ao redor da logo e letras */
+  filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.8)) drop-shadow(0px 0px 4px rgba(255,255,255,0.9));
 }
 
 .ao-logo-title {
