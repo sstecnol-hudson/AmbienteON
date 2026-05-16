@@ -116,7 +116,7 @@ export default async function handler(req, res) {
     });
 
     // Endpoint da API do Gemini 1.5 Flash
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
     const geminiResponse = await fetch(API_URL, {
       method: 'POST',
@@ -145,7 +145,7 @@ export default async function handler(req, res) {
     if (!geminiResponse.ok) {
       const errorText = await geminiResponse.text();
       console.error('Erro na API do Gemini:', geminiResponse.status, errorText);
-      throw new Error(`Erro do Gemini: ${geminiResponse.status}`);
+      throw new Error(`Erro do Gemini: ${geminiResponse.status} - ${errorText}`);
     }
 
     const data = await geminiResponse.json();
