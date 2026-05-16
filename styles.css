@@ -128,12 +128,12 @@
 }
 
 .hero-v2-title {
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
   color: #f1f5f9;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
 }
 
 .hero-gradient-text {
@@ -168,11 +168,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.85rem 2rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.25s ease;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
   cursor: pointer;
   border: none;
   text-decoration: none;
@@ -564,14 +564,14 @@ body.ao-app-mode main {
 /* Container de conteúdo que carrega via JS */
 .ao-spa-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
   background: var(--ao-color-bg);
-  border-radius: var(--ao-border-radius-xl);
-  box-shadow: var(--ao-shadow-lg);
+  border-radius: var(--ao-border-radius-lg);
+  box-shadow: var(--ao-shadow);
   border: 1px solid var(--ao-color-border);
-  padding: 3rem;
-  min-height: 60vh;
-  animation: spa-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 2rem;
+  min-height: 50vh;
+  animation: spa-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes spa-fade-in {
