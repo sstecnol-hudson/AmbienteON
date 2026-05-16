@@ -115,8 +115,14 @@ export default async function handler(req, res) {
       parts: [{ text: message }]
     });
 
-    // Endpoint da API do Gemini 1.5 Flash
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+    // Para o gemini-pro clássico, injetamos as instruções de sistema (SYSTEM_PROMPT) 
+    // diretamente na primeira mensagem do array, pois ele é 100% compatível com qualquer chave.
+    if (contents.length > 0 && contents[0].role === 'user') {
+      contents[0].parts[0].text = "INSTRUÇÕES DO SISTEMA:\n" + SYSTEM_PROMPT + "\n\n--- FIM DAS INSTRUÇÕES ---\n\nPergunta do Usuário: " + contents[0].parts[0].text;
+    }
+
+    // Endpoint da API Clássica do Gemini Pro
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
     const geminiResponse = await fetch(API_URL, {
       method: 'POST',
@@ -124,9 +130,6 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: SYSTEM_PROMPT }]
-        },
         contents: contents,
         generationConfig: {
           temperature: 0.7,
