@@ -31,62 +31,19 @@
    REDESIGN V2 — PREMIUM & INOVADOR
    ================================================================ */
 
-/* --- HERO V2 --- */
+/* --- HERO V2 (Minimalista e Corporativo) --- */
 .ao-hero-v2 {
   position: relative;
-  min-height: 100vh;
-  background: #030f0a;
+  min-height: 80vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
   overflow: hidden;
   display: flex;
   align-items: center;
   padding: 8rem 0 6rem;
 }
 
-.hero-grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(16, 185, 129, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.06) 1px, transparent 1px);
-  background-size: 60px 60px;
-  animation: gridPulse 8s ease-in-out infinite;
-}
-
-@keyframes gridPulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  animation: orbFloat 10s ease-in-out infinite;
-}
-
-.hero-orb-1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(6,78,59,0.5) 0%, transparent 70%);
-  top: -200px; right: -100px;
-  animation-delay: 0s;
-}
-.hero-orb-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, transparent 70%);
-  bottom: -100px; left: 10%;
-  animation-delay: -3s;
-}
-.hero-orb-3 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
-  top: 30%; left: 50%;
-  animation-delay: -6s;
-}
-
-@keyframes orbFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-20px, -30px) scale(1.05); }
-  66% { transform: translate(20px, 10px) scale(0.95); }
+.hero-grid-bg, .hero-orb {
+  display: none; /* Elementos removidos para um layout mais profissional e limpo */
 }
 
 .ao-hero-v2-inner {
@@ -130,29 +87,30 @@
 .hero-v2-title {
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 700;
-  color: #f1f5f9;
+  color: #0f172a;
   line-height: 1.2;
   letter-spacing: -0.02em;
   margin-bottom: 1.2rem;
 }
 
 .hero-gradient-text {
-  background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
+  background: linear-gradient(135deg, #064e3b, #10b981);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .hero-v2-subtitle {
-  font-size: 1.2rem;
-  color: #94a3b8;
+  font-size: 1.15rem;
+  color: #475569;
   line-height: 1.7;
   max-width: 640px;
   margin: 0 auto 2.5rem;
 }
 
 .hero-v2-subtitle strong {
-  color: #e2e8f0;
+  color: #0f172a;
+  font-weight: 600;
 }
 
 .hero-v2-actions {
@@ -525,83 +483,82 @@
 }
 
 /* ================================================================
-   MODO APP SPA (Single Page Application Minimalista)
+   PADRONIZAÇÃO DOS QUADROS E CARDS (Estilo Minimalista e Profissional)
    ================================================================ */
 
-body.ao-app-mode {
-  height: 100vh;
+.ao-service-card, .diff-card-v2, .tool-showcase-card, .bento-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
   overflow: hidden;
+  box-shadow: var(--ao-shadow-sm);
   display: flex;
   flex-direction: column;
-  background: var(--ao-color-bg-alt); /* ou usar o dark bg */
+  justify-content: flex-start;
 }
 
-/* Fixar o header no topo com blur */
-body.ao-app-mode .ao-header {
-  position: relative; /* ou fixed, dependendo do flow */
-  flex-shrink: 0;
-  border-bottom: 1px solid rgba(128,128,128,0.1);
-  background: rgba(255,255,255,0.8);
+.ao-service-card:hover, .diff-card-v2:hover, .tool-showcase-card:hover, .bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-color: #10b981;
 }
 
-.dark-mode.ao-app-mode .ao-header {
-  background: rgba(15, 23, 42, 0.8);
+.ao-service-card::before, .diff-card-v2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
-/* O Main vira a área central flexível */
-body.ao-app-mode main {
-  flex: 1;
-  overflow-y: auto; /* Scroll apenas interno */
-  overflow-x: hidden;
+.ao-service-card:hover::before, .diff-card-v2:hover::before { 
+  transform: scaleX(1); 
+}
+
+.ao-service-card h3, .diff-card-v2 h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 1rem 0 0.5rem;
+}
+
+.ao-service-card p, .diff-card-v2 p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.ao-service-card ul {
+  text-align: left;
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.ao-service-card ul li {
+  margin-bottom: 0.5rem;
+}
+
+.ao-service-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Para caber conteúdo longo */
-  padding: 2rem 1rem;
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Container de conteúdo que carrega via JS */
-.ao-spa-container {
-  width: 100%;
-  max-width: 1000px;
-  background: var(--ao-color-bg);
-  border-radius: var(--ao-border-radius-lg);
-  box-shadow: var(--ao-shadow);
-  border: 1px solid var(--ao-color-border);
-  padding: 2rem;
-  min-height: 50vh;
-  animation: spa-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes spa-fade-in {
-  from { opacity: 0; transform: translateY(20px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* Ajustes no Hero para Modo App */
-body.ao-app-mode .ao-hero-v2 {
-  min-height: auto;
-  border-radius: var(--ao-border-radius-xl);
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1200px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  padding: 6rem 2rem;
-}
-
-/* Esconder rodapé e outras seções da página inicial no modo App */
-body.ao-app-mode .ao-footer,
-body.ao-app-mode .ao-metrics-strip,
-body.ao-app-mode .ao-section-logos-v2,
-body.ao-app-mode .ao-features-v2 {
-  display: none !important;
-}
-
-@media (max-width: 768px) {
-  .ao-spa-container {
-    padding: 1.5rem;
-  }
+.ao-service-header input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #10b981;
+  margin-bottom: 0.5rem;
 }
 
 
@@ -1977,3 +1934,81 @@ img, svg {
   border-bottom: 2px solid var(--ao-color-primary);
 }
 
+/* ================================================================
+   PADRONIZAÇÃO DOS QUADROS E CARDS (Estilo Minimalista e Profissional)
+   ================================================================ */
+
+.ao-service-card, .diff-card-v2, .tool-showcase-card, .bento-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.ao-service-card:hover, .diff-card-v2:hover, .tool-showcase-card:hover, .bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-color: #10b981;
+}
+
+.ao-service-card::before, .diff-card-v2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.ao-service-card:hover::before, .diff-card-v2:hover::before { 
+  transform: scaleX(1); 
+}
+
+.ao-service-card h3, .diff-card-v2 h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 1rem 0 0.5rem;
+}
+
+.ao-service-card p, .diff-card-v2 p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.ao-service-card ul {
+  text-align: left;
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.ao-service-card ul li {
+  margin-bottom: 0.5rem;
+}
+
+.ao-service-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ao-service-header input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #10b981;
+  margin-bottom: 0.5rem;
+}
