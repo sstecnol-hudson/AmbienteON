@@ -501,6 +501,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Animações de scroll suave para links internos
 document.addEventListener('DOMContentLoaded', function() {
+  // Garantir que o chatbot seja inicializado o mais cedo possível
+  try {
+    injectChatbotWidget();
+    initializeChatbot();
+  } catch (e) {
+    console.error('Erro ao inicializar chatbot:', e);
+  }
+
   const internalLinks = document.querySelectorAll('a[href^="#"]');
   
   internalLinks.forEach(link => {
@@ -512,10 +520,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Inicializar animações de scroll
-  initializeScrollAnimations();
-  
-  // Inicializar chatbot
-  initializeChatbot();
+  try {
+    initializeScrollAnimations();
+  } catch (e) {
+    console.warn('Scroll animations failed:', e);
+  }
   
   // Inicializar biblioteca de normas
   initializeNormasLibrary();
@@ -1584,185 +1593,277 @@ function getServiceName(serviceValue) {
   return services[serviceValue] || serviceValue;
 }
 
-// Sistema de Chatbot Ambiental com IA
+// Injetar widget do chatbot em páginas que não o têm
+function injectChatbotWidget() {
+  if (document.getElementById('chatbot-widget')) return; // já existe
+  const widgetHTML = `
+  <div class="ao-chatbot-widget" id="chatbot-widget">
+    <div class="ao-chatbot-button" id="chatbot-button">
+      <span class="chatbot-icon">🤖</span>
+      <span class="chatbot-notification" id="chatbot-notification">1</span>
+    </div>
+    <div class="ao-chatbot-container" id="chatbot-container">
+      <div class="ao-chatbot-header">
+        <div class="chatbot-info">
+          <div class="chatbot-avatar">🌱</div>
+          <div class="chatbot-details">
+            <h4>AmbienteBot</h4>
+            <p>Assistente Ambiental</p>
+          </div>
+        </div>
+        <button class="chatbot-close" id="chatbot-close">×</button>
+      </div>
+      <div class="ao-chatbot-messages" id="chatbot-messages">
+        <div class="chatbot-message bot-message">
+          <div class="message-avatar">🤖</div>
+          <div class="message-content">
+            <p>Olá! Sou o AmbienteBot, seu assistente especializado em gestão ambiental. Como posso ajudar sua empresa hoje?</p>
+            <span class="message-time">Agora</span>
+          </div>
+        </div>
+      </div>
+      <div class="ao-chatbot-input-container">
+        <div class="chatbot-quick-actions">
+          <button class="quick-action" data-action="licenciamento">📋 Licenciamento</button>
+          <button class="quick-action" data-action="regularizacao">⚡ Regularização</button>
+          <button class="quick-action" data-action="residuos">♻️ Resíduos</button>
+          <button class="quick-action" data-action="carbono">🌱 Carbono</button>
+        </div>
+        <form class="ao-chatbot-form" id="chatbot-form">
+          <input type="text" id="chatbot-input" placeholder="Digite sua pergunta ambiental..." />
+          <button type="submit" class="chatbot-send">➤</button>
+        </form>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', widgetHTML);
+}
+
+// Função global para abrir o chatbot de qualquer página
+window.openChatbot = function() {
+  console.log('Tentando abrir chatbot via openChatbot()...');
+  const container = document.getElementById('chatbot-container');
+  const notification = document.getElementById('chatbot-notification');
+  const input = document.getElementById('chatbot-input');
+  
+  if (container) {
+    container.classList.add('active');
+    // FORÇAR exibição via JS (ignora cache de CSS)
+    container.style.display = 'flex';
+    container.style.opacity = '1';
+    container.style.transform = 'translateY(0)';
+    container.style.zIndex = '10000';
+    
+    if (notification) notification.style.display = 'none';
+    if (input) setTimeout(() => input.focus(), 300);
+    console.log('Chatbot aberto com sucesso.');
+  } else {
+    console.error('Falha ao abrir chatbot: Elemento #chatbot-container não encontrado no DOM.');
+  }
+};
+
+// Sistema de Chatbot Ambiental com IA (Gemini)
 function initializeChatbot() {
   const chatbotButton = document.getElementById('chatbot-button');
   const chatbotContainer = document.getElementById('chatbot-container');
   
-  if (!chatbotButton || !chatbotContainer) return;
+  console.log('Inicializando Chatbot...', { chatbotButton, chatbotContainer });
+
+  if (!chatbotButton || !chatbotContainer) {
+    console.error('Botão ou Container do Chatbot não encontrados!');
+    return;
+  }
 
   const chatbotClose = document.getElementById('chatbot-close');
   const chatbotForm = document.getElementById('chatbot-form');
   const chatbotInput = document.getElementById('chatbot-input');
   const chatbotMessages = document.getElementById('chatbot-messages');
   const quickActions = document.querySelectorAll('.quick-action');
+
+  // Histórico da conversa para enviar contexto ao Gemini
+  const welcomeMessage = '👋 Olá! Sou o **AmbienteBot**, assistente IA especializado em legislação ambiental do Mato Grosso. Posso responder dúvidas sobre licenciamento, CAR, Reserva Legal, resíduos e créditos de carbono. Como posso ajudar?';
+  const conversationHistory = [{ role: 'bot', text: welcomeMessage }];
+  let isWaiting = false;
   
   // Abrir/fechar chatbot
-  chatbotButton.addEventListener('click', toggleChatbot);
-  chatbotClose.addEventListener('click', toggleChatbot);
+  chatbotButton.onclick = function(e) {
+    console.log('Clique no botão do chatbot');
+    toggleChatbot();
+  };
+
+  if (chatbotClose) {
+    chatbotClose.onclick = function(e) {
+      console.log('Clique no fechar do chatbot');
+      toggleChatbot();
+    };
+  }
   
   function toggleChatbot() {
-    chatbotContainer.classList.toggle('active');
-    if (chatbotContainer.classList.contains('active')) {
-      chatbotInput.focus();
-      // Ocultar notificação quando abrir
-      document.getElementById('chatbot-notification').style.display = 'none';
+    const isActive = chatbotContainer.classList.toggle('active');
+    console.log('Chatbot toggled. Active:', isActive);
+    
+    // FORÇAR exibição via JS (ignora cache de CSS que pode estar quebrando o site)
+    if (isActive) {
+      chatbotContainer.style.display = 'flex';
+      chatbotContainer.style.opacity = '1';
+      chatbotContainer.style.transform = 'translateY(0)';
+      chatbotContainer.style.zIndex = '10000';
+      if (chatbotInput) setTimeout(() => chatbotInput.focus(), 200);
+      const notif = document.getElementById('chatbot-notification');
+      if (notif) notif.style.display = 'none';
+    } else {
+      chatbotContainer.style.display = 'none';
+      chatbotContainer.style.opacity = '0';
     }
   }
   
-  // Ações rápidas
+  // Ações rápidas — agora disparam pergunta real para a IA
   quickActions.forEach(action => {
     action.addEventListener('click', function() {
-      const actionType = this.dataset.action;
-      handleQuickAction(actionType);
+      const labels = {
+        licenciamento: 'Quero saber sobre licenciamento ambiental no Mato Grosso',
+        regularizacao: 'Como regularizar minha empresa ambientalmente?',
+        residuos: 'Como devo gerenciar os resíduos da minha empresa?',
+        carbono: 'Quero calcular a pegada de carbono da minha empresa'
+      };
+      const msg = labels[this.dataset.action];
+      if (msg && !isWaiting) sendUserMessage(msg);
     });
   });
   
-  // Enviar mensagem
+  // Enviar mensagem ao submeter o formulário
   chatbotForm.addEventListener('submit', function(e) {
     e.preventDefault();
     const message = chatbotInput.value.trim();
-    if (message) {
-      sendMessage(message);
+    if (message && !isWaiting) {
+      sendUserMessage(message);
       chatbotInput.value = '';
     }
   });
-  
-  // Função para enviar mensagem
-  function sendMessage(message, isUser = true) {
-    addMessage(message, isUser);
+
+  // Envia a mensagem do usuário e busca resposta da IA
+  async function sendUserMessage(message) {
+    if (isWaiting) return;
     
-    if (isUser) {
-      // Simular resposta do bot com delay
-      setTimeout(() => {
-        const response = generateResponse(message);
-        addMessage(response, false);
-      }, 1000);
+    isWaiting = true;
+    chatbotInput.disabled = true;
+
+    // Exibir mensagem do usuário
+    addMessage(message, 'user');
+    
+    // Adicionar ao histórico local
+    conversationHistory.push({ role: 'user', text: message });
+
+    // Exibir indicador de digitação
+    const typingId = showTypingIndicator();
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message,
+          history: conversationHistory.slice(0, -1) // envia histórico completo exceto a última msg que já é enviada separada no campo 'message'
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      removeTypingIndicator(typingId);
+
+      const botText = data.response || data.message || 'Desculpe, não consegui processar sua mensagem agora. Tente novamente em instantes.';
+      
+      addMessage(botText, 'bot');
+      
+      // Adicionar resposta do bot ao histórico
+      conversationHistory.push({ role: 'bot', text: botText });
+
+    } catch (error) {
+      console.error('Erro no chatbot:', error);
+      removeTypingIndicator(typingId);
+      const fallback = 'Estou com dificuldades técnicas para me conectar. Por favor, tente novamente em instantes ou entre em contato via **contato@ambienteon.com.br**.';
+      addMessage(fallback, 'bot');
+    } finally {
+      isWaiting = false;
+      chatbotInput.disabled = false;
+      chatbotInput.focus();
+      
+      // Limitar histórico para não sobrecarregar requisições futuras
+      if (conversationHistory.length > 20) {
+        conversationHistory.splice(1, 2); // Remove as mensagens mais antigas mantendo a saudação
+      }
     }
   }
-  
-  // Função para adicionar mensagem ao chat
-  function addMessage(text, isUser = true) {
+
+  // Renderiza markdown básico (negrito, listas, links)
+  function renderMarkdown(text) {
+    if (!text) return '';
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+      .replace(/^• (.+)$/gm, '<li>$1</li>')
+      .replace(/^- (.+)$/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+      .replace(/\n/g, '<br>');
+  }
+
+  // Adiciona mensagem na interface
+  function addMessage(text, role) {
     const messageDiv = document.createElement('div');
-    messageDiv.className = `chatbot-message ${isUser ? 'user-message' : 'bot-message'}`;
-    
+    messageDiv.className = `chatbot-message ${role === 'user' ? 'user-message' : 'bot-message'}`;
     const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    
     messageDiv.innerHTML = `
-      <div class="message-avatar">${isUser ? '👤' : '🤖'}</div>
+      <div class="message-avatar">${role === 'user' ? '👤' : '🤖'}</div>
       <div class="message-content">
-        <p>${text}</p>
+        <p>${renderMarkdown(text)}</p>
         <span class="message-time">${time}</span>
       </div>
     `;
-    
     chatbotMessages.appendChild(messageDiv);
-    scrollToBottom();
-  }
-  
-  // Função para lidar com ações rápidas
-  function handleQuickAction(actionType) {
-    const actions = {
-      'licenciamento': {
-        user: 'Quero saber sobre licenciamento ambiental',
-        bot: 'O licenciamento ambiental é obrigatório para diversas atividades. Posso te ajudar com: 📋 Análise de viabilidade ambiental, 🏭 Licenciamento de empreendimentos, 📄 Renovação de licenças. Qual seria sua dúvida específica?'
-      },
-      'regularizacao': {
-        user: 'Preciso regularizar minha empresa',
-        bot: 'A regularização ambiental é fundamental! Posso te ajudar com: ⚡ Análise de conformidade legal, 📋 Levantamento de pendências, 🚀 Plano de ação para regularização. Me diga mais sobre sua situação atual.'
-      },
-      'residuos': {
-        user: 'Como devo gerenciar resíduos?',
-        bot: 'A gestão de resíduos é crucial! Posso te orientar sobre: ♻️ Caracterização de resíduos, 📊 Inventário de resíduos, 📝 Plano de gerenciamento, 🏭 Logística reversa. Qual tipo de resíduo sua empresa gera?'
-      },
-      'carbono': {
-        user: 'Quero calcular minha pegada de carbono',
-        bot: 'Excelente iniciativa! Posso te ajudar com: 🌱 Cálculo de emissões de CO₂, 📊 Análise de fontes de emissão, 💡 Sugestões de redução, 🌳 Opções de compensação. Deseja começar com uma estimativa básica?'
-      }
-    };
-    
-    const action = actions[actionType];
-    if (action) {
-      sendMessage(action.user);
-      setTimeout(() => {
-        sendMessage(action.bot, false);
-      }, 1500);
-    }
-  }
-  
-  // Função para gerar respostas baseadas nas mensagens do usuário
-  function generateResponse(message) {
-    const lowerMessage = message.toLowerCase();
-    
-    // Palavras-chave e respostas correspondentes
-    const responses = [
-      {
-        keywords: ['licença', 'licenciamento', 'autorização'],
-        response: 'Sobre licenciamento ambiental, posso te ajudar com: análise de viabilidade, preparação de documentos, tramitação junto aos órgãos ambientais. Qual seria o tipo de empreendimento?'
-      },
-      {
-        keywords: ['regularização', 'documentação', 'pendência'],
-        response: 'Para regularização ambiental, verificamos: documentação existente, análise de conformidade, elaboração de planos de ação. Me diga mais sobre sua situação atual.'
-      },
-      {
-        keywords: ['resíduo', 'lixo', 'descarte'],
-        response: 'Sobre gestão de resíduos: primeiro identificamos o tipo (perigoso/não perigoso), depois criamos o plano de gerenciamento adequado. Você sabe classificar seus resíduos?'
-      },
-      {
-        keywords: ['carbono', 'emissão', 'co2'],
-        response: 'Para calcular pegada de carbono, precisamos de dados sobre: consumo de energia, transporte, processos industriais. Posso te ajudar com uma estimativa inicial!'
-      },
-      {
-        keywords: ['auditoria', 'auditor'],
-        response: 'Auditoria ambiental avalia conformidade legal, identifica riscos e oportunidades de melhoria. Recomendo agendar uma consultoria para avaliar suas necessidades específicas.'
-      },
-      {
-        keywords: ['treinamento', 'capacitação', 'educação'],
-        response: 'Treinamentos ambiental são essenciais! Oferecemos: conscientização geral, NR específicas, gestão de emergências, manipulação de produtos químicos. Qual seria o foco?'
-      },
-      {
-        keywords: ['preço', 'valor', 'custo', 'orçamento'],
-        response: 'Os valores variam conforme o tipo e porte do empreendimento. Recomendo agendar uma consultoria gratuita para entender suas necessidades e fornecer um orçamento personalizado.'
-      },
-      {
-        keywords: ['tempo', 'prazo', 'quando'],
-        response: 'Os prazos dependem do tipo de serviço e complexidade. Licenciamento simples: 30-60 dias. Projetos complexos: 90-180 dias. Posso te dar uma estimativa melhor após entender seu caso.'
-      },
-      {
-        keywords: ['obrigatório', 'obrigada', 'obrigado', 'lei'],
-        response: 'Sim, a legislação ambiental é obrigatória! A não conformidade pode gerar multas e interdições. Posso te ajudar a entender quais obrigações se aplicam ao seu negócio.'
-      },
-      {
-        keywords: ['oi', 'olá', 'bom dia', 'boa tarde', 'boa noite'],
-        response: 'Olá! Como posso ajudar sua empresa com questões ambientais hoje? Use os botões rápidos ou digite sua dúvida específica.'
-      }
-    ];
-    
-    // Procurar correspondência nas palavras-chave
-    for (const response of responses) {
-      if (response.keywords.some(keyword => lowerMessage.includes(keyword))) {
-        return response.response;
-      }
-    }
-    
-    // Resposta padrão se não houver correspondência
-    return 'Entendi sua questão! Para te ajudar melhor, posso: 📋 Analisar sua necessidade específica, 📅 Agendar uma consultoria gratuita, 💬 Encaminhar para nossa especialista. Qual você prefere?';
-  }
-  
-  // Função para rolar até o final das mensagens
-  function scrollToBottom() {
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
   }
+
+  // Indicador de digitação (...)
+  function showTypingIndicator() {
+    const id = 'typing-' + Date.now();
+    const div = document.createElement('div');
+    div.className = 'chatbot-message bot-message';
+    div.id = id;
+    div.innerHTML = `
+      <div class="message-avatar">🤖</div>
+      <div class="message-content">
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
+      </div>
+    `;
+    chatbotMessages.appendChild(div);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    return id;
+  }
+
+  function removeTypingIndicator(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  // Mensagem de boas-vindas inicial (apenas se não houver mensagens)
+  if (chatbotMessages.children.length <= 1) {
+    setTimeout(() => {
+      // Já existe uma mensagem no HTML estático ou injetado, 
+      // mas vamos reforçar a mensagem de boas-vindas com IA
+      if (!chatbotContainer.classList.contains('active')) {
+        const notif = document.getElementById('chatbot-notification');
+        if (notif) notif.style.display = 'flex';
+      }
+    }, 2000);
+  }
   
-  // Mensagem inicial após 3 segundos
-  setTimeout(() => {
-    if (!chatbotContainer.classList.contains('active')) {
-      sendMessage('👋 Estou aqui para ajudar! Posso responder suas dúvidas sobre gestão ambiental, licenciamento, resíduos e muito mais. É só perguntar!', false);
-    }
-  }, 3000);
-  
-  console.log('Chatbot ambiental inicializado');
+  console.log('Chatbot IA (Gemini) inicializado com histórico persistente');
 }
+
 
 function initializeScrollAnimations() {
   const observerOptions = {
@@ -2434,7 +2535,6 @@ window.calcularGHGPro = calcularGHGPro;
 window.initializeNetZeroChart = initializeNetZeroChart;
 
 // Iniciar componentes específicos se estiver na página de emissões
-});
 
 // --- SISTEMA DE FERRAMENTAS PREMIUM (ALTA ATRAÇÃO) ---
 

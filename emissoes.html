@@ -284,18 +284,6 @@
       }
     });
 
-    function calcularGHGPro() {
-      showNotification('Calculando inventário completo (Escopos 1, 2 e 3)...', 'info');
-      // A lógica real será adicionada ao main.js
-      setTimeout(() => {
-        const total = (Math.random() * 500 + 100).toFixed(2);
-        document.getElementById('asset-emissions').textContent = total;
-        document.getElementById('asset-neutralization').textContent = (Math.random() * 20).toFixed(1) + '%';
-        document.getElementById('asset-market-value').textContent = 'R$ ' + (total * 55).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        
-        showNotification('Inventário atualizado com sucesso!', 'success');
-      }, 1500);
-    }
 
     function exportarRelatorioGHG() {
       showNotification('Gerando relatório técnico em conformidade com ISO 14064...', 'info');
