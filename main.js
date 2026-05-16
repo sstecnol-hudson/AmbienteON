@@ -534,7 +534,101 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Inicializar newsletter
   initializeNewsletter();
+
+  // ATIVAR MODO APLICATIVO MINIMALISTA (SPA)
+  enableSPAMode();
 });
+
+// ================================================================
+// MODO APLICATIVO MINIMALISTA (SPA - Single Page Application)
+// ================================================================
+function enableSPAMode() {
+  // Adiciona a classe ao body para aplicar os estilos minimalistas e travar a rolagem da página
+  document.body.classList.add('ao-app-mode');
+
+  const mainContainer = document.querySelector('main');
+  const navLinks = document.querySelectorAll('.ao-nav-link');
+
+  // Guardar o conteúdo original (Hero) para quando clicar em "Home" ou Logo
+  const originalMainHTML = mainContainer.innerHTML;
+
+  // Interceptar cliques no menu
+  navLinks.forEach(link => {
+    link.addEventListener('click', async function(e) {
+      e.preventDefault();
+      
+      const targetUrl = this.getAttribute('href');
+      
+      // Remover highlight de todos e adicionar no clicado
+      navLinks.forEach(l => l.classList.remove('ao-nav-link-highlight'));
+      this.classList.add('ao-nav-link-highlight');
+
+      // Animação de saída
+      mainContainer.style.opacity = '0';
+      mainContainer.style.transform = 'translateY(10px)';
+
+      try {
+        // Se for index, restaura o original
+        if (targetUrl === 'index.html' || targetUrl === '/') {
+          setTimeout(() => {
+            mainContainer.innerHTML = originalMainHTML;
+            mainContainer.style.opacity = '1';
+            mainContainer.style.transform = 'translateY(0)';
+          }, 300);
+          return;
+        }
+
+        // Buscar a página
+        const response = await fetch(targetUrl);
+        const htmlText = await response.text();
+
+        // Extrair apenas o que importa (conteúdo principal da página buscada)
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+        
+        // Procuramos por divs específicas como ao-features-grid, ao-services-grid, etc.
+        const contentGrid = doc.querySelector('.ao-services-grid') || 
+                            doc.querySelector('.ao-features-grid') || 
+                            doc.querySelector('.ao-contact-grid') ||
+                            doc.querySelector('.ao-dashboard-grid') ||
+                            doc.querySelector('main .ao-container');
+
+        setTimeout(() => {
+          if (contentGrid) {
+            // Embala o conteúdo na nova janela centralizada minimalista
+            mainContainer.innerHTML = `
+              <div class="ao-spa-container">
+                ${contentGrid.outerHTML}
+              </div>
+            `;
+          } else {
+            // Fallback se não achar grid específico
+            const fullMain = doc.querySelector('main');
+            if(fullMain) {
+              mainContainer.innerHTML = `
+                <div class="ao-spa-container">
+                  ${fullMain.innerHTML}
+                </div>
+              `;
+            }
+          }
+          
+          // Animação de entrada
+          mainContainer.style.opacity = '1';
+          mainContainer.style.transform = 'translateY(0)';
+          
+          // Rolar para o topo do container interno, não da página
+          mainContainer.scrollTo({ top: 0, behavior: 'smooth' });
+          
+        }, 300);
+
+      } catch (err) {
+        console.error('Erro ao carregar aba:', err);
+        mainContainer.style.opacity = '1';
+      }
+    });
+  });
+}
 
 // Sistema de Calculadora de Pegada de Carbono
 function calcularPegadaCarbono() {

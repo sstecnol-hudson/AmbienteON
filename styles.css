@@ -524,6 +524,87 @@
   transition: transform 0.3s ease;
 }
 
+/* ================================================================
+   MODO APP SPA (Single Page Application Minimalista)
+   ================================================================ */
+
+body.ao-app-mode {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--ao-color-bg-alt); /* ou usar o dark bg */
+}
+
+/* Fixar o header no topo com blur */
+body.ao-app-mode .ao-header {
+  position: relative; /* ou fixed, dependendo do flow */
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(128,128,128,0.1);
+  background: rgba(255,255,255,0.8);
+}
+
+.dark-mode.ao-app-mode .ao-header {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+/* O Main vira a área central flexível */
+body.ao-app-mode main {
+  flex: 1;
+  overflow-y: auto; /* Scroll apenas interno */
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Para caber conteúdo longo */
+  padding: 2rem 1rem;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Container de conteúdo que carrega via JS */
+.ao-spa-container {
+  width: 100%;
+  max-width: 1200px;
+  background: var(--ao-color-bg);
+  border-radius: var(--ao-border-radius-xl);
+  box-shadow: var(--ao-shadow-lg);
+  border: 1px solid var(--ao-color-border);
+  padding: 3rem;
+  min-height: 60vh;
+  animation: spa-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes spa-fade-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ajustes no Hero para Modo App */
+body.ao-app-mode .ao-hero-v2 {
+  min-height: auto;
+  border-radius: var(--ao-border-radius-xl);
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  padding: 6rem 2rem;
+}
+
+/* Esconder rodapé e outras seções da página inicial no modo App */
+body.ao-app-mode .ao-footer,
+body.ao-app-mode .ao-metrics-strip,
+body.ao-app-mode .ao-section-logos-v2,
+body.ao-app-mode .ao-features-v2 {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .ao-spa-container {
+    padding: 1.5rem;
+  }
+}
+
+
 .diff-card-v2:hover::before { transform: scaleX(1); }
 .diff-card-v2:hover {
   transform: translateY(-4px);
