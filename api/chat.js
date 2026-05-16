@@ -93,7 +93,13 @@ export default async function handler(req, res) {
 
     if (Array.isArray(history)) {
       // Filtrar e formatar histórico (limitar às últimas 10 mensagens)
-      const formattedHistory = history.slice(-10).filter(msg => msg.role && msg.text);
+      let formattedHistory = history.slice(-10).filter(msg => msg.role && msg.text);
+      
+      // A API do Gemini EXIGE que a primeira mensagem no histórico seja do 'user'.
+      // Se a primeira mensagem for do 'bot' (model), nós a removemos do contexto.
+      while (formattedHistory.length > 0 && formattedHistory[0].role !== 'user') {
+        formattedHistory.shift();
+      }
       
       formattedHistory.forEach(msg => {
         contents.push({
